@@ -1,0 +1,19 @@
+{
+  "index": "ទំព័រដើម",
+  "analog-electronics": {
+    "title": "Analog Electronics",
+    "type": "page"
+  },
+  "iot-integration": {
+    "title": "IoT Integration",
+    "type": "page"
+  },
+  "routing-switching": {
+    "title": "Routing & Switching",
+    "type": "page"
+  },
+  "tools": {
+    "title": "ឧបករណ៍ Tools",
+    "type": "page"
+  }
+}
