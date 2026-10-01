@@ -1,11 +1,92 @@
-# Introduction
- 
-Welcome to Nextra! This is a basic docs template. You can use it as a starting point for your own project :)
+# ⚡ TechLab Learning Portal
 
-## What is Nextra?
+សូមស្វាគមន៍មកកាន់ **TechLab Portal** — គេហទំព័រកណ្ដាលសម្រាប់ចែករំលែកមេរៀន សៀវភៅណែនាំការអនុវត្តពិសោធន៍ (Lab Sheets) កូដគំរូ និងឧបករណ៍ជំនួយការគណនាវិស្វកម្ម សម្រាប់មុខវិជ្ជាបច្ចេកវិទ្យា និងទូរគមនាគមន៍។
 
-A **simple**, **powerful** and **flexible** site generation framework with everything you love from Next.js.
+---
 
-## Documentation
+<div style={{
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+  gap: '16px',
+  marginTop: '24px',
+  marginBottom: '32px'
+}}>
 
-The documentation is available at [https://nextra.site](https://nextra.site).
+  <div style={{
+    border: '1px solid #334155',
+    borderRadius: '12px',
+    padding: '20px',
+    background: 'rgba(30, 41, 59, 0.5)'
+  }}>
+    <h3 style={{ marginTop: 0, color: '#38bdf8' }}>🔌 Analog Electronics</h3>
+    <p style={{ fontSize: '14px', color: '#94a3b8' }}>
+      សិក្សាអំពី Diodes, BJT, Op-Amp, Active Filters និងទាញយកឯកសារ Simulation ជាមួយ NI Multisim (.ms14)។
+    </p>
+    <a href="/analog-electronics" style={{ fontSize: '14px', color: '#38bdf8', fontWeight: 600 }}>
+      ចូលមើលមេរៀន →
+    </a>
+  </div>
+
+  <div style={{
+    border: '1px solid #334155',
+    borderRadius: '12px',
+    padding: '20px',
+    background: 'rgba(30, 41, 59, 0.5)'
+  }}>
+    <h3 style={{ marginTop: 0, color: '#4ade80' }}>📡 IoT Integration</h3>
+    <p style={{ fontSize: '14px', color: '#94a3b8' }}>
+      ការអនុវត្តជាមួយ ESP32, សេនស័រវាស់ស្ទង់, Cellular Modules (SIM7600/A7670) និងការបញ្ជូនទិន្នន័យតាម MQTT។
+    </p>
+    <a href="/iot-integration" style={{ fontSize: '14px', color: '#4ade80', fontWeight: 600 }}>
+      ចូលមើលមេរៀន →
+    </a>
+  </div>
+
+  <div style={{
+    border: '1px solid #334155',
+    borderRadius: '12px',
+    padding: '20px',
+    background: 'rgba(30, 41, 59, 0.5)'
+  }}>
+    <h3 style={{ marginTop: 0, color: '#fb923c' }}>🌐 Routing & Switching</h3>
+    <p style={{ fontSize: '14px', color: '#94a3b8' }}>
+      ទ្រឹស្ដី និងលំហាត់អនុវត្ត Cisco Networking, Subnetting, VLAN, Inter-VLAN Routing និង OSPFv2 (.pkt)។
+    </p>
+    <a href="/routing-switching" style={{ fontSize: '14px', color: '#fb923c', fontWeight: 600 }}>
+      ចូលមើលមេរៀន →
+    </a>
+  </div>
+
+  <div style={{
+    border: '1px solid #334155',
+    borderRadius: '12px',
+    padding: '20px',
+    background: 'rgba(30, 41, 59, 0.5)'
+  }}>
+    <h3 style={{ marginTop: 0, color: '#f43f5e' }}>🧮 Engineering Tools</h3>
+    <p style={{ fontSize: '14px', color: '#94a3b8' }}>
+      ឧបករណ៍គណនា Subnet/CIDR ដោយផ្ទាល់លើ Web និង RC Filter Cutoff Frequency Calculator។
+    </p>
+    <a href="/tools" style={{ fontSize: '14px', color: '#f43f5e', fontWeight: 600 }}>
+      បើកឧបករណ៍ Tools →
+    </a>
+  </div>
+
+</div>
+
+---
+
+## 📌 ការណែនាំសម្រាប់ការអនុវត្ត Lab
+
+ដើម្បីឱ្យការអនុវត្តក្នុងបន្ទប់ពិសោធន៍ទទួលបានប្រសិទ្ធភាពខ្ពស់ និស្សិតទាំងអស់ត្រូវ៖
+
+1. **រៀបចំមុនពេលចូលរៀន (Pre-Lab):** អានឯកសារណែនាំ Lab Guide និងធ្វើការគណនាទ្រឹស្ដីជាមុន។
+2. **ត្រៀមកម្មវិធីពិសោធន៍ (Software Prerequisites):**
+   * **Cisco Packet Tracer (v8.x ឡើងទៅ)** សម្រាប់មុខវិជ្ជា Routing & Switching
+   * **NI Multisim** សម្រាប់មុខវិជ្ជា Analog Electronics
+   * **VS Code / Arduino IDE / PlatformIO** សម្រាប់មុខវិជ្ជា IoT Integration
+3. **ការផ្ញើរបាយការណ៍ (Lab Report):** រៀបចំលទ្ធផលវាស់វែង រូបភាព Waveform/Topology និងសេចក្ដីសន្និដ្ឋានទៅតាមទម្រង់ដែលបានកំណត់ក្នុងមេរៀននីមួយៗ។
+
+---
+
+> 💡 **ចំណាំ៖** ឯកសារគំរូ (.pkt, .ms14, source code) ទាំងអស់អាចទាញយកបានដោយសេរីនៅតាមទំព័រមេរៀននីមួយៗខាងលើ។
