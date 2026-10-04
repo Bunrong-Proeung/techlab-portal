@@ -2,78 +2,205 @@ import Link from 'next/link'
 
 export default function HomePage() {
   return (
-    <div className="min-h-[75vh] flex flex-col justify-center items-center text-center px-4 py-12">
-      {/* 1. Badge Pill */}
-      <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 text-xs sm:text-sm font-medium mb-6 shadow-sm">
-        <span>🚀</span>
-        <span>ស្វាគមន៍មកកាន់ការសិក្សាវិស្វកម្ម</span>
+    <div style={{ maxWidth: '1140px', margin: '0 auto', textAlign: 'center', padding: '3.5rem 1.5rem 5rem 1.5rem' }}>
+      
+      {/* Badge ស្វាគមន៍ */}
+      <div style={{ marginBottom: '2.5rem' }}>
+        <span style={{
+          backgroundColor: 'rgba(37, 99, 235, 0.1)',
+          color: '#2563eb',
+          padding: '10px 24px',
+          borderRadius: '9999px',
+          fontSize: '0.95rem',
+          fontWeight: '600',
+          border: '1px solid rgba(37, 99, 235, 0.25)',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '8px'
+        }}>
+          🚀 វិបផតថលវិស្វកម្ម &amp; ពិសោធន៍បច្ចេកវិទ្យា
+        </span>
       </div>
 
-      {/* 2. Hero Headline */}
-      <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-neutral-900 dark:text-white max-w-3xl leading-[1.25]">
-        សិក្សាទ្រឹស្ដី & អនុវត្ត Lab ជាមួយ{' '}
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500">
-          TechLab Portal
-        </span>
+      {/* ចំណងជើងធំ */}
+      <h1 style={{
+        fontSize: 'clamp(2.3rem, 5vw, 3.8rem)',
+        fontWeight: '800',
+        lineHeight: '1.75',
+        marginBottom: '1.5rem',
+        marginTop: '0'
+      }}>
+        <span style={{ display: 'block', marginBottom: '0.5rem' }}>សិក្សាក្នុងភាសាខ្មែរ</span>
+        <span style={{ display: 'block', color: '#2563eb' }}>ជាមួយ TechLab Portal</span>
       </h1>
 
-      {/* 3. Subtitle */}
-      <p className="mt-5 text-sm sm:text-base md:text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl leading-relaxed">
-        មជ្ឈមណ្ឌលចែករំលែកមេរៀន សៀវភៅណែនាំការអនុវត្តជាក់ស្ដែង (Lab Sheets) និងឧបករណ៍ជំនួយការគណនាវិស្វកម្ម ទូរគមនាគមន៍ និង IoT។
+      {/* អត្ថបទពិពណ៌នា */}
+      <p style={{
+        fontSize: '1.15rem',
+        lineHeight: '2.2',
+        maxWidth: '780px',
+        margin: '0 auto 3.5rem auto',
+        opacity: 0.85
+      }}>
+        ប្រមូលផ្តុំមេរៀនសង្ខេប សន្លឹកកិច្ចការពិសោធន៍ (Lab Sheets) និងកូដគំរូជាក់ស្ដែងលើមុខវិជ្ជា Analog Electronics, 
+        ប្រព័ន្ធបង្កប់ (Embedded Systems), IoT Integration និងប្រព័ន្ធបណ្ដាញកុំព្យូទ័រ Routing &amp; Switching។
       </p>
 
-      {/* 4. Action Buttons */}
-      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+      {/* ប៊ូតុងចូលរៀន */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '1.5rem',
+        flexWrap: 'wrap',
+        marginBottom: '5rem'
+      }}>
         <Link
-          href="/iot-integration/curriculum"
-          className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm sm:text-base shadow-sm hover:shadow-md transition-all duration-200 gap-2"
+          href="/courses"
+          style={{
+            backgroundColor: '#2563eb',
+            color: '#ffffff',
+            padding: '15px 36px',
+            borderRadius: '14px',
+            fontWeight: '700',
+            fontSize: '1.1rem',
+            textDecoration: 'none',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '10px',
+            boxShadow: '0 8px 25px rgba(37, 99, 235, 0.4)'
+          }}
         >
-          <span>ចាប់ផ្ដើមរៀនឥឡូវនេះ</span>
-          <span>🎓</span>
+          តោះចាប់ផ្ដើមចូលរៀន 🚀
         </Link>
+
         <a
           href="https://t.me"
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-800 dark:text-neutral-200 font-medium text-sm sm:text-base border border-neutral-300 dark:border-neutral-700 transition-all duration-200 gap-2"
+          style={{
+            backgroundColor: 'rgba(125, 125, 125, 0.08)',
+            color: 'inherit',
+            padding: '15px 32px',
+            borderRadius: '14px',
+            fontWeight: '600',
+            fontSize: '1.05rem',
+            textDecoration: 'none',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '10px',
+            border: '1px solid rgba(125, 125, 125, 0.25)',
+            boxShadow: '0 4px 14px rgba(0, 0, 0, 0.05)'
+          }}
         >
-          <span>ចូលរួម Telegram</span>
-          <span>✈️</span>
+          ចូលរួម Channel Telegram ➔
         </a>
       </div>
 
-      {/* 5. Feature Highlights Cards */}
-      <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-4xl text-left">
-        <div className="p-6 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm hover:shadow-md transition-all">
-          <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-400 text-xl mb-4">
+      {/* ========================================================
+          ប្រអប់ទាំង ៣ ចែកជា ៣ ជួរស្មើគ្នាក្នុងជួរដេកតែមួយ (Grid 3 Columns)
+          ======================================================== */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+        gap: '1.5rem',
+        textAlign: 'left'
+      }}>
+        
+        {/* Card 1 */}
+        <div style={{
+          padding: '2.2rem 1.8rem',
+          borderRadius: '20px',
+          border: '1px solid rgba(125, 125, 125, 0.18)',
+          backgroundColor: 'rgba(125, 125, 125, 0.03)',
+          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
+          display: 'flex',
+          flexDirection: 'column'
+        }}>
+          <div style={{
+            fontSize: '1.8rem',
+            marginBottom: '1.2rem',
+            width: '54px',
+            height: '54px',
+            borderRadius: '14px',
+            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
             📖
           </div>
-          <h3 className="font-bold text-neutral-900 dark:text-white text-base">មេរៀនគុណភាព</h3>
-          <p className="mt-2 text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-            រៀបចំតាមកម្រិតស្តង់ដារ ចាប់ពីមូលដ្ឋានគ្រឹះដំបូង រហូតដល់កម្រិតអនុវត្តគម្រោងជាក់ស្តែង។
+          <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.75rem', color: '#2563eb' }}>
+            មេរៀនគុណភាព
+          </h3>
+          <p style={{ fontSize: '0.98rem', lineHeight: '2', margin: 0, opacity: 0.85 }}>
+            មាតិកាសិក្សាត្រូវបានចងក្រងយ៉ាងផ្ចិតផ្ចង់ មានទាំងទ្រឹស្ដីគ្រឹះ និងរូបមន្តគណនាជាក់លាក់។
           </p>
         </div>
 
-        <div className="p-6 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm hover:shadow-md transition-all">
-          <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400 text-xl mb-4">
+        {/* Card 2 */}
+        <div style={{
+          padding: '2.2rem 1.8rem',
+          borderRadius: '20px',
+          border: '1px solid rgba(125, 125, 125, 0.18)',
+          backgroundColor: 'rgba(125, 125, 125, 0.03)',
+          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
+          display: 'flex',
+          flexDirection: 'column'
+        }}>
+          <div style={{
+            fontSize: '1.8rem',
+            marginBottom: '1.2rem',
+            width: '54px',
+            height: '54px',
+            borderRadius: '14px',
+            backgroundColor: 'rgba(6, 182, 212, 0.1)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
             💻
           </div>
-          <h3 className="font-bold text-neutral-900 dark:text-white text-base">ការអនុវត្តជាក់ស្ដែង</h3>
-          <p className="mt-2 text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-            មានលំហាត់ Lab ភ្ជាប់ជាមួយ Simulation (Multisim, Packet Tracer) និងកូដគំរូពេញលេញ។
+          <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.75rem', color: '#0891b2' }}>
+            លក្ខណៈជាក់ស្ដែង
+          </h3>
+          <p style={{ fontSize: '0.98rem', lineHeight: '2', margin: 0, opacity: 0.85 }}>
+            គ្រប់មេរៀនទាំងអស់សុទ្ធតែមាន Lab សន្លឹកកិច្ចការ និងកូដគំរូអាចដំណើរការបានពិតប្រាកដ។
           </p>
         </div>
 
-        <div className="p-6 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm hover:shadow-md transition-all">
-          <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center text-amber-600 dark:text-amber-400 text-xl mb-4">
-            🛠️️
+        {/* Card 3 */}
+        <div style={{
+          padding: '2.2rem 1.8rem',
+          borderRadius: '20px',
+          border: '1px solid rgba(125, 125, 125, 0.18)',
+          backgroundColor: 'rgba(125, 125, 125, 0.03)',
+          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
+          display: 'flex',
+          flexDirection: 'column'
+        }}>
+          <div style={{
+            fontSize: '1.8rem',
+            marginBottom: '1.2rem',
+            width: '54px',
+            height: '54px',
+            borderRadius: '14px',
+            backgroundColor: 'rgba(217, 119, 6, 0.1)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            🤝
           </div>
-          <h3 className="font-bold text-neutral-900 dark:text-white text-base">ឧបករណ៍ជំនួយ (Tools)</h3>
-          <p className="mt-2 text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-            ផ្តល់ជូននូវម៉ាស៊ីនគណនាបច្ចេកទេស Subnetting និងតម្រងប្រេកង់ស្រាប់ៗលើគេហទំព័រ។
+          <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.75rem', color: '#d97706' }}>
+            ការគាំទ្រ
+          </h3>
+          <p style={{ fontSize: '0.98rem', lineHeight: '2', margin: 0, opacity: 0.85 }}>
+            មានសហគមន៍សម្រាប់ពិភាក្សា ដោះស្រាយបញ្ហា Code និង Circuit ពេលអនុវត្តជាក់ស្ដែង។
           </p>
         </div>
+
       </div>
+
     </div>
   )
 }

@@ -1,3 +1,168 @@
-# មេរៀនទី 04
+# មេរៀនទី ៤៖ ការដោះស្រាយបញ្ហា & UART Debug
 
-ខ្លឹមសារកំពុងរៀបចំ...
+នៅក្នុងប្រព័ន្ធបង្កប់ (Embedded Systems) និង IoT ការដែលគ្មានអេក្រង់បង្ហាញព័ត៌មានផ្ទាល់ (Headless System) ធ្វើឱ្យការដោះស្រាយបញ្ហា (Debugging) មានភាពស្មុគស្មាញ។ នៅក្នុងមេរៀននេះ យើងនឹងស្វែងយល់អំពីស្ថាបត្យកម្ម Universal Asynchronous Receiver-Transmitter (UART) ការកំណត់ Baud Rate កំហុស Timing Error និងបច្ចេកទេសបង្កើត Command-Line Interface (CLI) តាមរយៈច្រក Serial ដើម្បីតាមដានសុខភាពប្រព័ន្ធ និងកែបញ្ហាក្នុងពេលជាក់ស្ដែង។
+
+---
+
+## ១. ស្ថាបត្យកម្មផ្នែករឹងនៃ UART (Hardware Architecture)
+
+UART គឺជាពិធីការទំនាក់ទំនងទិន្នន័យជាស៊េរីបែប Asynchronous (មិនប្រើខ្សែ Clock រួមគ្នាឡើយ) ដោយពឹងផ្អែកលើខ្សែសញ្ញាគោលចំនួនពីរ៖
+
+* **TX (Transmitter - Pin 1):** បញ្ជូនទិន្នន័យចេញជាលំដាប់ Bit
+* **RX (Receiver - Pin 0):** ទទួលទិន្នន័យចូលមកកាន់ MCU
+* **GND (Ground Common Reference):** ខ្សែដីរួម ដាច់ខាតត្រូវតែភ្ជាប់គ្នាដើម្បីធ្វើជាចំណុចយោងតង់ស្យុង (Voltage Reference)
+
+### ទម្រង់កញ្ចប់ទិន្នន័យ UART Frame (Standard 8-N-1):
+1. **Start Bit:** កម្រិត LOW ចំនួន 1 Bit ដើម្បីដាស់ Receiver ឱ្យដឹងថាទិន្នន័យចាប់ផ្ដើមមកដល់
+2. **Data Bits:** ទំហំពី 5 ដល់ 9 Bits (ទូទៅប្រើ 8 Bits ឬ 1 Byte ចាប់ពី LSB ទៅ MSB)
+3. **Parity Bit (Optional):** ប្រើសម្រាប់ត្រួតពិនិត្យភាពត្រឹមត្រូវនៃទិន្នន័យ (None, Even, Odd)
+4. **Stop Bit:** កម្រិត HIGH ចំនួន 1 ឬ 2 Bits ដើម្បីបញ្ចប់កញ្ចប់ទិន្នន័យ
+
+---
+
+## ២. ការគណនា Baud Rate & ផលប៉ះពាល់នៃ Clock Timing Error
+
+ដោយសារ UART មិនមានខ្សែ Clock រួម ការកំណត់ល្បឿនបញ្ជូន (Baud Rate) រវាងឧបករណ៍ទាំងពីរត្រូវតែដូចគ្នាជាដាច់ខាត (ឧទាហរណ៍ 9600, 115200 bps)។ 
+
+### រូបមន្តគណនា Baud Rate លើ ATmega328P:
+* `UBRR = (F_CPU / (16 * Baud_Rate)) - 1`
+
+### ផលវិបាកនៃ Clock Drift & Error Tolerance:
+* ប្រសិនបើប្រេកង់លំយោលរបស់ Crystal មានភាពលម្អៀងលើសពី **2.5%** ឬឧបករណ៍ទាំងពីរជ្រើសរើស Baud Rate ខុសគ្នា កញ្ចប់ទិន្នន័យនឹងត្រូវអានខុសពេល (Sampling Misalignment) ដែលបណ្ដាលឱ្យទិន្នន័យដែលបង្ហាញលើ Serial Monitor ក្លាយជាអក្សរខូច (Gibberish Characters / Garbage Data)។
+
+---
+
+## ៣. បច្ចេកទេស Serial Debugging & Buffer Overflow Prevention
+
+### ការប្រើប្រាស់ F() Macro ដើម្បីការពារ SRAM Overflow:
+ដូចដែលបានសិក្សាក្នុងមេរៀនទី ១ ការសរសេរ `Serial.println("System Running...");` នឹងទាញយកអក្សរនោះទៅផ្ទុកក្នុង SRAM (2 KB)។ ការប្រើប្រាស់ `Serial.println(F("System Running..."));` នឹងរក្សាទុកអក្សរថេរក្នុង Flash Memory ទាំងស្រុង ដែលជួយការពារបញ្ហា MCU Crash ដោយសារខ្វះ Memory។
+
+### ការគ្រប់គ្រង Ring Buffer (64 Bytes):
+Arduino Serial មាន Hardware Buffer ទំហំត្រឹមតែ 64 Bytes ប៉ុណ្ណោះ។ ប្រសិនបើទិន្នន័យហូរចូលមកលឿនពេក ហើយកូដរបស់យើងជាប់គាំងនឹង `delay()` យូរ នោះ Buffer នឹងពេញហៀរ (Overflow) បណ្ដាលឱ្យបាត់បង់ទិន្នន័យសំខាន់ៗភ្លាមៗ។
+
+---
+
+## ៤. ការអនុវត្ត Lab ជាក់ស្ដែង (Hands-on Lab 04)
+
+```text
+========================================================================
+[LAB SHEET 04: NON-BLOCKING SERIAL CLI DEBUGGER]
+========================================================================
+
+១. គោលបំណងពិសោធន៍៖
+   - ស្វែងយល់ពីរបៀបទទួល និងញែក (Parse) ពាក្យបញ្ជាពី Serial Terminal
+   - បង្កើត Command-Line Interface (CLI) សម្រាប់គ្រប់គ្រង និងតាមដានសុខភាព MCU
+   - សរសេរកូដ Debug ដោយប្រើ F() Macro និង Non-blocking Buffer Reading
+
+២. គ្រឿងបង្គុំដែលត្រូវប្រើប្រាស់ (Bill of Materials)៖
+   - Arduino Uno R3 / Nano x1
+   - ខ្សែ USB Type-B ឬ Mini-USB x1
+   - កុំព្យូទ័រ (ដំណើរការ Arduino IDE Serial Monitor / PuTTY)
+
+៣. គោលការណ៍តំណភ្ជាប់ (Interfacing)៖
+   - ប្រើប្រាស់ច្រក USB ដោយផ្ទាល់ (បន្ទះឈីប ATmega16U2 ឬ CH340 នឹងបម្លែងពី USB ទៅ UART TX/RX)
+```
+### C++
+
+```cpp
+/*
+ * Hands-on Lab 04: Non-blocking UART Command-Line Debugger
+ */
+
+const int LED_PIN = 13;
+String inputString = "";
+bool stringComplete = false;
+
+void printSystemStatus() {
+  Serial.println(F("\n================ SYSTEM STATUS ================"));
+  Serial.print(F("Uptime (ms): "));
+  Serial.println(millis());
+  Serial.print(F("Free SRAM Estimated: "));
+  
+  // មុខងារគណនាអង្គចងចាំ SRAM ដែលនៅសល់
+  extern int __heap_start, *__brkval;
+  int v;
+  int freeMemory = (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
+  Serial.print(freeMemory);
+  Serial.println(F(" Bytes"));
+  
+  Serial.print(F("LED Status: "));
+  Serial.println(digitalRead(LED_PIN) == HIGH ? F("ON") : F("OFF"));
+  Serial.println(F("================================================"));
+}
+
+void setup() {
+  pinMode(LED_PIN, OUTPUT);
+  Serial.begin(115200);
+  inputString.reserve(64); // កក់ទំហំ String ជាមុនដើម្បីកាត់បន្ថយ Memory Fragmentation
+
+  Serial.println(F("--- UART Debugging Console Initialized [115200 bps] ---"));
+  Serial.println(F("Available Commands: HELP, STATUS, LED_ON, LED_OFF"));
+}
+
+void loop() {
+  // អានទិន្នន័យពី Serial Buffer ដោយមិនប្រើ Delay (Non-blocking)
+  while (Serial.available()) {
+    char inChar = (char)Serial.read();
+    if (inChar == '\n' || inChar == '\r') {
+      if (inputString.length() > 0) {
+        stringComplete = true;
+      }
+    } else {
+      inputString += inChar;
+    }
+  }
+
+  // វិភាគពាក្យបញ្ជា (Command Parser)
+  if (stringComplete) {
+    inputString.trim(); // កាត់បន្ថយចន្លោះទទេមុខក្រោយ
+
+    if (inputString.equalsIgnoreCase("HELP")) {
+      Serial.println(F("\n[SUPPORTED COMMANDS]"));
+      Serial.println(F("  STATUS  - Display current system metrics and free SRAM"));
+      Serial.println(F("  LED_ON  - Force turn on board LED"));
+      Serial.println(F("  LED_OFF - Force turn off board LED"));
+    } 
+    else if (inputString.equalsIgnoreCase("STATUS")) {
+      printSystemStatus();
+    } 
+    else if (inputString.equalsIgnoreCase("LED_ON")) {
+      digitalWrite(LED_PIN, HIGH);
+      Serial.println(F("ACK: LED has been set to HIGH"));
+    } 
+    else if (inputString.equalsIgnoreCase("LED_OFF")) {
+      digitalWrite(LED_PIN, LOW);
+      Serial.println(F("ACK: LED has been set to LOW"));
+    } 
+    else {
+      Serial.print(F("ERROR: Unknown Command ["));
+      Serial.print(inputString);
+      Serial.println(F("]. Type HELP for instructions."));
+    }
+
+    // សម្អាត Buffer សម្រាប់ទទួលពាក្យបញ្ជាថ្មី
+    inputString = "";
+    stringComplete = false;
+  }
+}
+```
+---
+## ៥. សំណួរត្រិះរិះ និងលំហាត់ស្វ័យសិក្សា (Self-Assessment)
+```text
+========================================================================
+[លំហាត់ត្រិះរិះ & បញ្ហាអនុវត្តពង្រីកសមត្ថភាព]
+========================================================================
+
+សំណួរទី ១៖
+- នៅពេលអ្នកបើក Serial Monitor ស្រាប់តែឃើញអក្សរលោតជាសញ្ញាសួរ (?) ឬនិមិត្តសញ្ញា
+  ចម្លែកៗ (Garbage Characters) តើកត្តាចម្បងបំផុតដែលបណ្តាលឱ្យកើតបញ្ហានេះជាអ្វី? 
+  ហើយអ្នកត្រូវកែសម្រួលវាដូចម្តេច?
+
+សំណួរទី ២៖
+- ហេតុអ្វីបានជាយើងមិនអាចប្រើប្រាស់ជើង Pin 0 (RX) និង Pin 1 (TX) ជាជើង Digital I/O 
+  ធម្មតាបាន ក្នុងពេលដែលប្រព័ន្ធកំពុងដំណើរការ Serial Debugging?
+
+លំហាត់អនុវត្តពង្រីកសមត្ថភាព (Extension Challenge)៖
+- ចូរបន្ថែមពាក្យបញ្ជា "READ_A0" ទៅក្នុងកូដ CLI ខាងលើ ដោយកំណត់ឱ្យប្រព័ន្ធអានតម្លៃ
+  តង់ស្យុង Analog ចេញពីជើង A0 រួចបម្លែងជា Volt បញ្ជូនត្រឡប់មកកាន់ Serial Monitor វិញ
+  ភ្លាមៗនៅពេលមានការហៅពាក្យបញ្ជានេះ។

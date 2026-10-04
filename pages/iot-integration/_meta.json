@@ -1,31 +1,18 @@
 {
-  "curriculum": " កម្មវិធីសិក្សាទូទៅ",
-  "--- phase1": {
-    "type": "separator",
-    "title": " ដំណាក់កាលទី ១៖ មូលដ្ឋានគ្រឹះដំបូង"
+  "curriculum": "📋 មាតិកា & កម្មវិធីសិក្សា",
+  "---": {
+    "type": "separator"
   },
-  "lesson-01": "មេរៀនទី ១៖ ស្ថាបត្យកម្ម MCU & IDE",
-  "lesson-02": "មេរៀនទី ២៖ Digital I/O & Interfacing",
+  "lesson-01": "មេរៀនទី ១៖ ស្ថាបត្យកម្ម Microcontroller",
+  "lesson-02": "មេរៀនទី ២៖ Digital I/O & GPIO Control",
   "lesson-03": "មេរៀនទី ៣៖ Analog Signals, ADC & PWM",
   "lesson-04": "មេរៀនទី ៤៖ ការដោះស្រាយបញ្ហា & UART Debug",
-  "--- phase2": {
-    "type": "separator",
-    "title": " ដំណាក់កាលទី ២៖ កម្រិតមធ្យម"
-  },
-  "lesson-05": "មេរៀនទី ៥៖ ការគ្រប់គ្រងពេល & Interrupts",
-  "lesson-06": "មេរៀនទី ៦៖ ពិធីការទំនាក់ទំនង UART, I2C, SPI",
-  "lesson-07": "មេរៀនទី ៧៖ ការបញ្ជាបន្ទុក & Actuators",
-  "--- phase3": {
-    "type": "separator",
-    "title": " ដំណាក់កាលទី ៣៖ កម្រិតខ្ពស់"
-  },
-  "lesson-08": "មេរៀនទី ៨៖ Real-Time OS (FreeRTOS)",
-  "lesson-09": "មេរៀនទី ៩៖ Bare-metal & Low Power Modes",
-  "--- phase4": {
-    "type": "separator",
-    "title": " ដំណាក់កាលទី ៤៖ IoT Connectivity & Cloud"
-  },
-  "lesson-10": "មេរៀនទី ១០៖ ការតភ្ជាប់ WiFi & Cellular IoT",
-  "lesson-11": "មេរៀនទី ១១៖ ពិធីការ MQTT & REST APIs",
-  "lesson-12": "មេរៀនទី ១២៖ គម្រោងរួមបញ្ចូលបច្ចេកវិទ្យា (Capstone)"
+  "lesson-05": "មេរៀនទី ៥៖ Timers & Hardware Interrupts",
+  "lesson-06": "មេរៀនទី ៦៖ I2C Protocol & OLED Display",
+  "lesson-07": "មេរៀនទី ៧៖ SPI Bus & SD Card Logging",
+  "lesson-08": "មេរៀនទី ៨៖ ឧបករណ៍ចាប់សញ្ញា & Calibration",
+  "lesson-09": "មេរៀនទី ៩៖ ESP32 Wi-Fi & Web Server",
+  "lesson-10": "មេរៀនទី ១០៖ ពិធីការ MQTT & IoT Broker",
+  "lesson-11": "មេរៀនទី ១១៖ ការបញ្ជូនទិន្នន័យទៅ Cloud Dashboard",
+  "lesson-12": "មេរៀនទី ១២៖ គម្រោងបញ្ចប់ (Capstone Project)"
 }

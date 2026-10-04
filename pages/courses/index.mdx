@@ -1,0 +1,218 @@
+import Link from 'next/link'
+
+export default function CoursesPage() {
+  return (
+    <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '2.5rem 1rem 5rem 1rem' }}>
+      <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+        <h1 style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: '800', marginBottom: '1rem', lineHeight: '1.6' }}>
+          📚 កាតាឡុកមុខវិជ្ជា &amp; វគ្គសិក្សា
+        </h1>
+        <p style={{ fontSize: '1.1rem', opacity: 0.85, maxWidth: '650px', margin: '0 auto', lineHeight: '2' }}>
+          សូមជ្រើសរើសមុខវិជ្ជាដែលអ្នកចង់សិក្សា ដើម្បីចូលទៅកាន់មេរៀនទ្រឹស្ដី កូដគំរូ និងសន្លឹកកិច្ចការពិសោធន៍ជាក់ស្ដែង។
+        </p>
+      </div>
+
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        gap: '2rem'
+      }}>
+        {/* IoT Integration */}
+        <div style={{
+          borderRadius: '20px',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
+          backgroundColor: 'rgba(255, 255, 255, 0.03)',
+          padding: '2rem',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          boxShadow: '0 8px 30px rgba(0,0,0,0.1)'
+        }}>
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem' }}>
+              <span style={{ fontSize: '2.2rem' }}>📡</span>
+              <span style={{
+                fontSize: '0.8rem',
+                padding: '4px 12px',
+                borderRadius: '9999px',
+                backgroundColor: 'rgba(6, 182, 212, 0.15)',
+                color: '#06b6d4',
+                fontWeight: '600'
+              }}>
+                ១២ មេរៀន
+              </span>
+            </div>
+            <h2 style={{ fontSize: '1.35rem', fontWeight: '700', marginBottom: '0.75rem', lineHeight: '1.5' }}>
+              IoT Integration Systems
+            </h2>
+            <p style={{ fontSize: '0.95rem', opacity: 0.8, lineHeight: '1.9', marginBottom: '1.5rem' }}>
+              សិក្សាពីស្ថាបត្យកម្ម MCU, GPIO, ADC, PWM, UART, I2C/SPI, ESP32 Wi-Fi, ពិធីការ MQTT និងការបញ្ជូនទិន្នន័យទៅកាន់ Cloud។
+            </p>
+          </div>
+          <Link
+            href="/iot-integration/lesson-01"
+            style={{
+              backgroundColor: '#06b6d4',
+              color: '#ffffff',
+              textAlign: 'center',
+              padding: '12px 20px',
+              borderRadius: '12px',
+              fontWeight: '600',
+              textDecoration: 'none',
+              boxShadow: '0 4px 15px rgba(6, 182, 212, 0.35)'
+            }}
+          >
+            ចូលរៀនមុខវិជ្ជានេះ ➔
+          </Link>
+        </div>
+
+        {/* Analog Electronics */}
+        <div style={{
+          borderRadius: '20px',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
+          backgroundColor: 'rgba(255, 255, 255, 0.03)',
+          padding: '2rem',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          boxShadow: '0 8px 30px rgba(0,0,0,0.1)'
+        }}>
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem' }}>
+              <span style={{ fontSize: '2.2rem' }}>⚡</span>
+              <span style={{
+                fontSize: '0.8rem',
+                padding: '4px 12px',
+                borderRadius: '9999px',
+                backgroundColor: 'rgba(245, 158, 11, 0.15)',
+                color: '#f59e0b',
+                fontWeight: '600'
+              }}>
+                Analog Circuits
+              </span>
+            </div>
+            <h2 style={{ fontSize: '1.35rem', fontWeight: '700', marginBottom: '0.75rem', lineHeight: '1.5' }}>
+              Analog Electronics
+            </h2>
+            <p style={{ fontSize: '0.95rem', opacity: 0.8, lineHeight: '1.9', marginBottom: '1.5rem' }}>
+              មូលដ្ឋានគ្រឹះគ្រឿងបង្គុំអេឡិចត្រូនិក Diodes, BJT, MOSFET, Op-Amp, សៀគ្វីតម្រង (Filters) និងការធ្វើ Simulation លើ Multisim។
+            </p>
+          </div>
+          <Link
+            href="/analog-electronics"
+            style={{
+              backgroundColor: '#f59e0b',
+              color: '#ffffff',
+              textAlign: 'center',
+              padding: '12px 20px',
+              borderRadius: '12px',
+              fontWeight: '600',
+              textDecoration: 'none',
+              boxShadow: '0 4px 15px rgba(245, 158, 11, 0.35)'
+            }}
+          >
+            ចូលរៀនមុខវិជ្ជានេះ ➔
+          </Link>
+        </div>
+
+        {/* Routing & Switching */}
+        <div style={{
+          borderRadius: '20px',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
+          backgroundColor: 'rgba(255, 255, 255, 0.03)',
+          padding: '2rem',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          boxShadow: '0 8px 30px rgba(0,0,0,0.1)'
+        }}>
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem' }}>
+              <span style={{ fontSize: '2.2rem' }}>🌐</span>
+              <span style={{
+                fontSize: '0.8rem',
+                padding: '4px 12px',
+                borderRadius: '9999px',
+                backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                color: '#10b981',
+                fontWeight: '600'
+              }}>
+                Cisco Labs
+              </span>
+            </div>
+            <h2 style={{ fontSize: '1.35rem', fontWeight: '700', marginBottom: '0.75rem', lineHeight: '1.5' }}>
+              Routing &amp; Switching
+            </h2>
+            <p style={{ fontSize: '0.95rem', opacity: 0.8, lineHeight: '1.9', marginBottom: '1.5rem' }}>
+              ស្វែងយល់ពី Subnetting (CIDR/VLSM), VLAN, Inter-VLAN Routing, Static/Dynamic Routing និងការអនុវត្តលើ Packet Tracer។
+            </p>
+          </div>
+          <Link
+            href="/routing-switching"
+            style={{
+              backgroundColor: '#10b981',
+              color: '#ffffff',
+              textAlign: 'center',
+              padding: '12px 20px',
+              borderRadius: '12px',
+              fontWeight: '600',
+              textDecoration: 'none',
+              boxShadow: '0 4px 15px rgba(16, 185, 129, 0.35)'
+            }}
+          >
+            ចូលរៀនមុខវិជ្ជានេះ ➔
+          </Link>
+        </div>
+
+        {/* Tools & Setup */}
+        <div style={{
+          borderRadius: '20px',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
+          backgroundColor: 'rgba(255, 255, 255, 0.03)',
+          padding: '2rem',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          boxShadow: '0 8px 30px rgba(0,0,0,0.1)'
+        }}>
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem' }}>
+              <span style={{ fontSize: '2.2rem' }}>🛠</span>
+              <span style={{
+                fontSize: '0.8rem',
+                padding: '4px 12px',
+                borderRadius: '9999px',
+                backgroundColor: 'rgba(139, 92, 246, 0.15)',
+                color: '#8b5cf6',
+                fontWeight: '600'
+              }}>
+                Setup Guides
+              </span>
+            </div>
+            <h2 style={{ fontSize: '1.35rem', fontWeight: '700', marginBottom: '0.75rem', lineHeight: '1.5' }}>
+              Tools &amp; Development Setup
+            </h2>
+            <p style={{ fontSize: '0.95rem', opacity: 0.8, lineHeight: '1.9', marginBottom: '1.5rem' }}>
+              ការដំឡើងបរិស្ថានអភិវឌ្ឍន៍ VS Code, PlatformIO, Arduino IDE, Drivers CH340/CP2102, KiCad និង Git/GitHub។
+            </p>
+          </div>
+          <Link
+            href="/tools"
+            style={{
+              backgroundColor: '#8b5cf6',
+              color: '#ffffff',
+              textAlign: 'center',
+              padding: '12px 20px',
+              borderRadius: '12px',
+              fontWeight: '600',
+              textDecoration: 'none',
+              boxShadow: '0 4px 15px rgba(139, 92, 246, 0.35)'
+            }}
+          >
+            ចូលទៅកាន់ Tools ➔
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}

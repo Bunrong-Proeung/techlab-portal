@@ -1,0 +1,9 @@
+{
+  "index": "🛠️ មូលដ្ឋានគ្រឹះ & ឧបករណ៍ចាំបាច់",
+  "---": {
+    "type": "separator"
+  },
+  "vscode-setup": "១. ការដំឡើង VS Code & PlatformIO",
+  "driver-setup": "២. ការដំឡើង USB Driver (CH340 / CP2102)",
+  "git-github": "៣. ការប្រើប្រាស់ Git & GitHub សម្រាប់ IoT"
+}

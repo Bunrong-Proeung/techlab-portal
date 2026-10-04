@@ -1,3 +1,148 @@
-# មេរៀនទី 03
+# មេរៀនទី ៣៖ Analog Signals, ADC & PWM
 
-ខ្លឹមសារកំពុងរៀបចំ...
+នៅក្នុងមេរៀននេះ យើងនឹងសិក្សាអំពីរបៀបដែល Microcontroller ធ្វើការជាមួយពិភពខាងក្រៅតាមរយៈសញ្ញា Analog។ យើងនឹងពិនិត្យមើលស្ថាបត្យកម្ម Successive Approximation ADC ទំហំ 10-bit យន្តការជ្រើសរើសតង់ស្យុងយោង (Voltage Reference) និងបច្ចេកទេសបង្កើតសញ្ញា Quasi-analog តាមរយៈ Pulse Width Modulation (PWM) ដើម្បីបញ្ជាពន្លឺ LED ឬល្បឿនម៉ូទ័រ។
+
+---
+
+## ១. ស្ថាបត្យកម្ម 10-bit ADC របស់ ATmega328P
+
+Microcontroller គឺជាប្រព័ន្ធឌីជីថលសុទ្ធសាធ (ដំណើរការត្រឹម 0 និង 1) ប៉ុន្តែ Sensor ក្នុងធម្មជាតិ (ដូចជា សីតុណ្ហភាព ពន្លឺ សំណើម សម្ពាធ) បញ្ចេញសញ្ញាជាកម្រិតតង់ស្យុងប្រែប្រួលបន្តបន្ទាប់ (Continuous Analog Voltage)។ ឧបករណ៍ **Analog-to-Digital Converter (ADC)** ដើរតួជាអ្នកបម្លែងសញ្ញាទាំងនោះ។
+
+### លក្ខណៈបច្ចេកទេសនៃ ADC លើ ATmega328P:
+* **Resolution (កម្រិតលម្អិត):** 10-bit មានន័យថាវាអាចបំបែកកម្រិតតង់ស្យុងជា 1024 កម្រិត (ពី 0 ដល់ 1023)។
+* **ច្រកចូល (Analog Channels):** ជើង A0 ដល់ A5 (អាចពង្រីកដល់ A7 លើ Arduino Nano) តាមរយៈ Internal Multiplexer។
+* **រយៈពេលបម្លែង (Conversion Time):** ប្រហែលពី 65 ដល់ 260 microseconds ក្នុងមួយដង។
+
+### ប្រភពតង់ស្យុងយោង (Analog Reference - AREF):
+កម្រិតតង់ស្យុងអតិបរមាដែល ADC អាចវាស់បាន អាស្រ័យលើជម្រើស Reference Voltage តាមរយៈអនុគមន៍ `analogReference()`៖
+1. **DEFAULT:** តង់ស្យុងផ្គត់ផ្គង់ 5V (ដំណោះស្រាយ 1 កម្រិត = 5V / 1024 = 4.88mV)។
+2. **INTERNAL:** តង់ស្យុងយោងខាងក្នុងទំហំ 1.1V ដែលមានស្ថេរភាពខ្ពស់ មិនប្រែប្រួលតាមតង់ស្យុង USB ឡើយ។
+3. **EXTERNAL:** ផ្គត់ផ្គង់តង់ស្យុងខាងក្រៅផ្ទាល់ចូលជើង AREF (ពី 1.0V ដល់ 5V)។
+
+---
+
+## ២. យន្តការ Pulse Width Modulation (PWM)
+
+ATmega328P គ្មាន Digital-to-Analog Converter (DAC) ពិតប្រាកដសម្រាប់បញ្ចេញតង់ស្យុង Analog ទេ ប៉ុន្តែវាប្រើប្រាស់បច្ចេកទេស **PWM** ដោយធ្វើការបិទបើកភ្លើងឌីជីថល (HIGH / LOW) ក្នុងល្បឿនលឿនបំផុត ដើម្បីបង្កើតជាកម្រិតតង់ស្យុងជាមធ្យម (Average Voltage)។
+
+### សមាសភាគសំខាន់ៗនៃ PWM:
+* **Duty Cycle:** ជាភាគរយនៃរយៈពេលដែលសញ្ញាស្ថិតនៅកម្រិត HIGH ក្នុងមួយខួប (Period)។
+  * Duty Cycle 0% ស្មើនឹង 0V
+  * Duty Cycle 50% ស្មើនឹង 2.5V (ជាមធ្យម)
+  * Duty Cycle 100% ស្មើនឹង 5V
+* **Resolution របស់ PWM លើ Arduino:** ទំហំ 8-bit (តម្លៃកំណត់ពី 0 ដល់ 255) តាមរយៈអនុគមន៍ `analogWrite(pin, value)`។
+* **ជើង PWM លើ Uno/Nano:** ជើងដែលមានសញ្ញា "~" នៅពីមុខ (Pin 3, 5, 6, 9, 10, 11) ដំណើរការនៅប្រេកង់ 490Hz ឬ 980Hz។
+
+---
+
+## ៣. រូបមន្តគណនា និងការបម្លែងឯកតា (Mathematical Modeling)
+
+### រូបមន្តគណនាតង់ស្យុងពីតម្លៃ ADC:
+* `V_in = (ADC_Value * V_ref) / 1023.0`
+
+### ការបម្លែងកម្រិតពី ADC (10-bit) ទៅ PWM (8-bit):
+ដោយសារតម្លៃ ADC អានបានពី 0 ដល់ 1023 រីឯ PWM ទទួលតម្លៃពី 0 ដល់ 255 យើងអាចធ្វើការបម្លែងបាន ២ របៀប៖
+1. ប្រើអនុគមន៍ `map()`: `pwmValue = map(adcValue, 0, 1023, 0, 255);`
+2. ប្រើវិធីចែកនឹង 4 (Bit Shift): `pwmValue = adcValue / 4;` (ឬ `adcValue >> 2;`) ដែលជាវិធីសន្សំសំចៃ CPU ខ្លាំងបំផុត។
+
+---
+
+## ៤. ការអនុវត្ត Lab ជាក់ស្ដែង (Hands-on Lab 03)
+
+```text
+========================================================================
+[LAB SHEET 03: POTENTIOMETER SENSING & LED PWM DIMMING]
+========================================================================
+
+១. គោលបំណងពិសោធន៍៖
+   - វាស់កម្រិតតង់ស្យុង Analog ប្រែប្រួលតាមរយៈ Potentiometer
+   - បម្លែងតម្លៃ 10-bit ADC ទៅជា 8-bit PWM តាមរយៈ Software
+   - បញ្ជាកម្រិតពន្លឺ LED (Brightness Dimming) ទៅតាមការបង្វិលកុងតាក់
+
+២. គ្រឿងបង្គុំដែលត្រូវប្រើប្រាស់ (Bill of Materials)៖
+   - Arduino Uno R3 / Nano x1
+   - Potentiometer (VR) 10kΩ x1
+   - LED 5mm x1
+   - Resistor 220Ω x1
+   - Breadboard & Jumper wires
+
+៣. ដ្យាក្រាមតំណភ្ជាប់សៀគ្វី (Circuit Interfacing)៖
+   [Potentiometer 10kΩ]
+      ជើងឆ្វេង   -----> 5V
+      ជើងកណ្ដាល -----> Pin A0 (Analog In)
+      ជើងស្ដាំ    -----> GND
+
+   [LED PWM Dimmer]
+      Pin 9 (PWM) -----> [ 220Ω Resistor ] -----> (+) [LED Anode]
+                                                        |
+      GND         --------------------------------(-) [LED Cathode]
+```
+
+### C++
+
+```cpp
+/*
+ * Hands-on Lab 03: ADC Reading and PWM LED Dimmer
+ */
+
+const int POT_PIN = A0;   // ជើងអានសញ្ញាពី Potentiometer
+const int LED_PIN = 9;    // ជើង PWM បញ្ជាពន្លឺ LED (ត្រូវតែជាជើងមានសញ្ញា ~)
+
+int rawADC = 0;
+int pwmOutput = 0;
+float voltage = 0.0;
+
+void setup() {
+  pinMode(LED_PIN, OUTPUT);
+  Serial.begin(115200);
+  Serial.println(F("Lab 03: Analog ADC & PWM Dimming Initialized."));
+}
+
+void loop() {
+  // ១. អានតម្លៃ Analog ពីជើង A0 (ទទួលបានតម្លៃពី 0 ដល់ 1023)
+  rawADC = analogRead(POT_PIN);
+
+  // ២. គណនាតង់ស្យុងពិតជា Volt (0V ដល់ 5.0V)
+  voltage = (rawADC * 5.0) / 1023.0;
+
+  // ៣. បម្លែងតម្លៃពី 10-bit (0-1023) ទៅជា 8-bit (0-255) សម្រាប់ PWM
+  pwmOutput = map(rawADC, 0, 1023, 0, 255);
+
+  // ៤. បញ្ចេញសញ្ញា PWM ទៅកាន់ LED
+  analogWrite(LED_PIN, pwmOutput);
+
+  // ៥. បង្ហាញទិន្នន័យលើ Serial Monitor
+  Serial.print(F("ADC Value: "));
+  Serial.print(rawADC);
+  Serial.print(F(" | Calculated Voltage: "));
+  Serial.print(voltage, 2);
+  Serial.print(F(" V | PWM Duty: "));
+  Serial.print(pwmOutput);
+  Serial.print(F(" ("));
+  Serial.print((pwmOutput * 100) / 255);
+  Serial.println(F("%)"));
+
+  delay(100); // ពន្យារពេល 100ms ដើម្បីកុំឱ្យ Serial Monitor លោតញាប់ពេក
+}
+```
+---
+### ៥. សំណួរត្រិះរិះ និងលំហាត់ស្វ័យសិក្សា (Self-Assessment)
+```text
+========================================================================
+[លំហាត់ត្រិះរិះ & បញ្ហាអនុវត្តពង្រីកសមត្ថភាព]
+========================================================================
+
+សំណួរទី ១៖
+- ប្រសិនបើយើងប្រើប្រភពផ្គត់ផ្គង់ចេញពី USB កុំព្យូទ័រដែលធ្លាក់ភ្លើងនៅសល់ត្រឹម 4.5V 
+  តើតម្លៃ analogRead() នឹងមានការលម្អៀង (Error) ដែរឬទេ? តើយើងអាចដោះស្រាយបញ្ហានេះ
+  តាមវិធីណា?
+
+សំណួរទី ២៖
+- ហេតុអ្វីបានជាយើងមិនអាចប្រើប្រាស់ analogWrite() ទៅលើជើង Pin 2 ឬ Pin 4 លើបន្ទះ 
+  Arduino Uno បាន?
+
+លំហាត់អនុវត្តពង្រីកសមត្ថភាព (Extension Challenge)៖
+- ចូរសរសេរកម្មវិធីបន្ថែមលក្ខខណ្ឌ Deadband៖ ប្រសិនបើតង់ស្យុង Potentiometer 
+  នៅទាបជាង 0.5V ឱ្យ LED បិទពន្លឺទាំងស្រុង (PWM = 0) ហើយប្រសិនបើតង់ស្យុង
+  ឡើងខ្ពស់ជាង 4.5V ឱ្យ LED ភ្លឺពេញកម្រិត (PWM = 255) ដើម្បីការពារការប្រែប្រួល
+  ដោយសារ Noise អគ្គិសនីនៅចុងសងខាង។
