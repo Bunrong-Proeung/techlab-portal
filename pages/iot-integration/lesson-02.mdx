@@ -1,0 +1,91 @@
+# 📘 មេរៀនទី ២៖ Digital Input/Output & សៀគ្វីចំណុចប្រទាក់ (Interfacing)
+
+---
+
+## ១. ស្ថាបត្យកម្មខាងក្នុងនៃ GPIO Pins (Internal Structure)
+
+ជើង GPIO (General Purpose Input/Output) នីមួយៗនៅលើ ATmega328P ត្រូវបានគ្រប់គ្រងដោយសៀគ្វីអេឡិចត្រូនិកខាងក្នុងដែលមាន៖
+* **Output Driver (CMOS Push-Pull Transistors):** ផ្គត់ផ្គង់ចរន្ត Source (រុញវ៉ុលចេញ 5V) ឬ Sink (ស្រូបចរន្តចូលដី GND)
+* **Input Buffer (Schmitt Trigger):** បម្លែងកម្រិតវ៉ុលមិនច្បាស់លាស់ ឱ្យទៅជា Logic HIGH ឬ LOW ដាច់ណាត់
+* **Internal Pull-Up Resistor:** រេស៊ីស្តង់ខាងក្នុងដែលមានតម្លៃចន្លោះពី **20kΩ ទៅ 50kΩ** (ជាទូទៅ 35kΩ) ដែលអាចបើក ឬបិទបានតាមរយៈកូដ
+
+---
+
+## ២. ការគណនា Current-Limiting Resistor សម្រាប់ LED
+
+អំពូល LED គឺជាគ្រឿងបង្គុំដែលពឹងផ្អែកលើចរន្ត (Current-driven device)។ ប្រសិនបើតភ្ជាប់ជើង Digital Pin ទៅកាន់ LED ដោយផ្ទាល់ដោយគ្មានរេស៊ីស្តង់ទប់ចរន្ត វានឹងធ្វើឱ្យខូច LED ឬឆេះច្រក I/O របស់ Microcontroller ភ្លាមៗ។
+
+### រូបមន្តគណនាតាមច្បាប់អូម (Ohm's Law):
+$$R = \frac{V_{CC} - V_F}{I_F}$$
+
+* **$V_{CC}$:** វ៉ុលផ្គត់ផ្គង់ចេញពី Pin (សម្រាប់ Arduino គឺ $5\text{V}$)
+* **$V_F$ (Forward Voltage):** វ៉ុលធ្លាក់កាត់ LED (អំពូលក្រហម $\approx 1.8\text{V} - 2.0\text{V}$, អំពូលខៀវ/ស $\approx 3.0\text{V} - 3.2\text{V}$)
+* **$I_F$ (Forward Current):** ចរន្តសមស្របសម្រាប់ LED ភ្លឺច្បាស់ (ជាទូទៅចន្លោះ $10\text{mA} - 20\text{mA} = 0.01\text{A} - 0.02\text{A}$)
+
+**ឧទាហរណ៍គណនាសម្រាប់ LED ពណ៌ក្រហម ($V_F = 2.0\text{V}, I_F = 15\text{mA}$):**
+$$R = \frac{5\text{V} - 2.0\text{V}}{0.015\text{A}} = \frac{3.0\text{V}}{0.015\text{A}} = 200\,\Omega$$
+*(ដូច្នេះយើងអាចជ្រើសរើសរេស៊ីស្តង់តម្លៃស្ដង់ដារ **220Ω** ឬ **330Ω** មកប្រើប្រាស់)*
+
+---
+
+## ៣. ស្ថានភាព Floating Input និងដំណោះស្រាយ Pull-up / Pull-down
+
+នៅពេលជើង Digital Pin ត្រូវបានកំណត់ជា Input (`INPUT`) ប្រសិនបើជើងនោះមិនត្រូវបានភ្ជាប់ទៅប្រភពភ្លើង (5V) ឬទៅដី (GND) ទេ ជើងនោះនឹងស្ថិតក្នុងស្ថានភាព **Floating (អណ្ដែត)**។ កម្លាំងដែនអេឡិចត្រូម៉ាញ៉េទិចជុំវិញអាចធ្វើឱ្យ Input ចាប់សញ្ញា Logic ច្របូកច្របល់រវាង 0 និង 1 មិនទៀងទាត់ឡើយ។
+
+### យន្តការទប់ស្កាត់៖
+1. **External Pull-down Resistor:**
+   * ភ្ជាប់រេស៊ីស្តង់ $10\text{k}\Omega$ ពីជើង Input ទៅកាន់ **GND** (Logic ធម្មតា = LOW)
+   * ពេលចុចប៊ូតុង ជើងនោះទទួលបានភ្លើង $5\text{V}$ (Logic ចុច = HIGH)
+2. **External Pull-up Resistor:**
+   * ភ្ជាប់រេស៊ីស្តង់ $10\text{k}\Omega$ ពីជើង Input ទៅកាន់ **5V** (Logic ធម្មតា = HIGH)
+   * ពេលចុចប៊ូតុង ជើងនោះភ្ជាប់ទៅ **GND** (Logic ចុច = LOW)
+3. **Internal Pull-up (`INPUT_PULLUP` - ពេញនិយមបំផុត):**
+   * ប្រើប្រាស់រេស៊ីស្តង់ Pull-up ដែលមានស្រាប់ក្នុងបន្ទះឈីប ATmega328P មិនបាច់តរេស៊ីស្តង់ខាងក្រៅឡើយ
+   * កូដកំណត់៖ `pinMode(pin, INPUT_PULLUP);`
+   * ស្ថានភាព៖ មិនទាន់ចុច = `HIGH`, ពេលចុចភ្ជាប់ទៅ GND = `LOW` (Active-LOW Logic)
+
+---
+
+## ៤. បាតុភូត Switch Contact Bouncing & Software Debouncing
+
+ប៊ូតុងចុចមេកានិច (Mechanical Push Button) ប្រើប្រាស់បន្ទះលោហៈប៉ះគ្នា។ នៅពេលចុច ឬលែងប៊ូតុង បន្ទះលោហៈនឹងលោតញាក់ (Bounce) ទៅមកក្នុងរយៈពេលពីរបីមិល្លីវិនាទី (1ms - 10ms) មុននឹងជាប់នឹងន។
+
+ដោយសារ Microcontroller មានល្បឿនដំណើរការដល់ទៅ 16,000,000 ដងក្នុងមួយវិនាទី វានឹងរាប់ការលោតញាក់នោះថាជាការចុចប៊ូតុងរាប់សិបដង។
+
+### ក្បួនដោះស្រាយតាមកូដ (Software Debounce Algorithm):
+យើងកត់ត្រាពេលវេលា (`millis()`) នៅពេលស្ថានភាពប៊ូតុងប្រែប្រួល។ ប្រសិនបើស្ថានភាពនោះនៅតែរក្សាភាពដដែលលើសពីកម្រិតកំណត់ (Debounce Delay ឧ. 50ms) ទើបយើងទទួលស្គាល់ថាជាការចុចពិតប្រាកដ។
+
+```cpp
+const int BUTTON_PIN = 2;
+int buttonState = HIGH;         // ស្ថានភាពបច្ចុប្បន្នដែលទទួលស្គាល់
+int lastButtonState = HIGH;     // ស្ថានភាពមុននៃការអាន
+unsigned long lastDebounceTime = 0;
+const unsigned long debounceDelay = 50; // រយៈពេលទប់លំនឹង 50ms
+
+void setup() {
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int reading = digitalRead(BUTTON_PIN);
+
+  // ប្រសិនបើស្ថានភាពប៊ូតុងប្រែប្រួល (ដោយសារការចុច ឬដោយសារ Noise)
+  if (reading != lastButtonState) {
+    lastDebounceTime = millis(); // កត់ត្រាពេលវេលាដែលចាប់ផ្ដើមប្រែប្រួល
+  }
+
+  // ប្រសិនបើរយៈពេលឆ្លងកាត់យូរជាង debounceDelay
+  if ((millis() - lastDebounceTime) > debounceDelay) {
+    if (reading != buttonState) {
+      buttonState = reading;
+
+      // ទទួលស្គាល់ការចុចពិតប្រាកដ (Active-LOW)
+      if (buttonState == LOW) {
+        Serial.println("Valid Button Press Detected!");
+      }
+    }
+  }
+
+  lastButtonState = reading;
+}
