@@ -1,0 +1,146 @@
+# មេរៀនទី ១៖ ស្ថាបត្យកម្ម Microcontroller & បរិស្ថានអភិវឌ្ឍន៍ (IDE)
+
+សូមស្វាគមន៍មកកាន់មេរៀនដំបូងនៃវគ្គសិក្សា **Embedded Systems & IoT Integration**។ នៅក្នុងមេរៀននេះ យើងនឹងពិនិត្យមើលស៊ីជម្រៅលើផ្នែករឹង (Hardware Architecture) របស់បន្ទះឈីប **ATmega328P** (MCU គោលលើ Arduino Uno) យន្តការដំណើរការ Clock/Bootloader និងស្ថាបត្យកម្មកម្មវិធី C/C++។
+
+---
+
+## ១. ស្ថាបត្យកម្មផ្នែករឹងរបស់ ATmega328P (Hardware Architecture)
+
+បន្ទះឈីប ATmega328P ដំណើរការលើស្ថាបត្យកម្ម **8-bit AVR Enhanced RISC** (Harvard Architecture) ដែលបំបែក Bus ទិន្នន័យ (Data) និង Bus សេចក្ដីណែនាំ (Instruction) ដាច់ដោយឡែកពីគ្នា ដើម្បីបង្កើនល្បឿនប្រតិបត្តិការរហូតដល់ **16 MIPS** នៅប្រេកង់ **16 MHz**។
+
+### តារាងបែងចែកអង្គចងចាំ (Internal Memory Map)
+
+| ប្រភេទអង្គចងចាំ | ទំហំ (Size) | ប្រភេទនៃទិន្នន័យ | លក្ខណៈសម្បត្តិ |
+| :--- | :--- | :--- | :--- |
+| **Flash Program Memory** | 32 KB | កូដកម្មវិធី (Firmware) & Bootloader | Non-volatile (មិនបាត់បង់ទិន្នន័យពេលដាច់ភ្លើង), សរសេរឡើងវិញបាន 10,000 ដង |
+| **SRAM (Static RAM)** | 2 KB | អថេរ (Variables), Call Stack, Heap | Volatile (បាត់បង់ទិន្នន័យភ្លាមៗពេលដាច់ភ្លើង), ល្បឿនលឿនបំផុត |
+| **EEPROM** | 1 KB | ការកំណត់ Parameters, Sensor Calibrations | Non-volatile, អាចអាន/សរសេរទិន្នន័យតាម Byte, អាយុកាល 100,000 ដង |
+
+> ⚠️️ **ការប្រុងប្រយ័ត្នលើ Memory Constraint (SRAM 2 KB):**  
+> ដោយសារ SRAM មានត្រឹមតែ **2048 Bytes** ប៉ុណ្ណោះ ការប្រកាសប្រើប្រាស់ String វែងៗ ឬ Array ធំៗអាចបណ្ដាលឱ្យកើតបញ្ហា **Stack-Heap Collision** (Stack Overflow) ធ្វើឱ្យ MCU គាំង ឬ Reset ដោយឯកឯង។ សូមប្រើប្រាស់ Keyword `F()` Macro ដូចជា `Serial.println(F("..."))` ដើម្បីរក្សាទុកអក្សរថេរក្នុង Flash Memory ជំនួសឱ្យ SRAM។
+
+---
+
+## ២. សៀគ្វីគ្រឹះដំណើរការបន្ទះឈីប (Core Support Circuits)
+
+ដើម្បីឱ្យ MCU អាចដំណើរការបាន មានសៀគ្វីជំនួយសំខាន់ៗចំនួន ៣៖
+
+1. **Clock Oscillator (16 MHz Crystal)៖** ភ្ជាប់ជាមួយជើង `XTAL1` (Pin 9) និង `XTAL2` (Pin 10) រួមជាមួយ Ceramic Capacitors ទំហំ 22pF ចំនួន ២ គ្រាប់ចុះ GND ដើម្បីបង្កើតលំយោលផ្តល់ចង្វាក់បេះដូងដល់ CPU។
+2. **Reset Circuit (Active-LOW)៖** ជើង `RESET` (Pin 1) ត្រូវបានទាញឡើងភ្លើង 5V តាមរយៈ Pull-up Resistor 10kΩ។ នៅពេលជើងនេះធ្លាក់មក 0V (GND) បន្ទះឈីបនឹងចាប់ផ្តើមដំណើរការឡើងវិញពីចំណុចសូន្យ។
+3. **តួនាទីរបស់ Bootloader៖** Bootloader គឺជាកម្មវិធីតូចមួយ (ទំហំ 0.5 KB) ដែលត្រូវបានដុត (Burn) ទុកជាមុនក្នុង Flash Memory។ មុខងាររបស់វាគឺចាំស្ដាប់ការបញ្ជូនកូដថ្មីពីកុំព្យូទ័រតាមច្រក UART (Serial RX/TX) ដោយផ្ទាល់ ជួយឱ្យយើងមិនចាំបាច់ប្រើឧបករណ៍ Programmer ខាងក្រៅ (ដូចជា USBasp/AVRISP) ឡើយ។
+
+---
+
+## ៣. រចនាសម្ព័ន្ធកូដ C/C++ ក្នុង Arduino Framework
+
+កម្មវិធីលើ Embedded Systems ខុសពី Console App ធម្មតា ដោយវាដំណើរការលើប្រព័ន្ធកំណត់ហេតុគ្មានទីបញ្ចប់ (Super-Loop Architecture)៖
+
+```cpp
+#include <Arduino.h>
+
+// ដំណើរការតែមួយដងគត់ នៅពេលបន្ទះឈីបបើកភ្លើង ឬត្រូវ Reset
+void setup() {
+  pinMode(13, OUTPUT);      // កំណត់ជើង Built-in LED ជាច្រកចេញ
+  Serial.begin(115200);     // កំណត់ល្បឿនទំនាក់ទំនង UART Serial Baud Rate
+  
+  Serial.println(F("--- Microcontroller Initialized Successfully ---"));
+}
+
+// ដំណើរការវិលជុំរហូតមិនចេះចប់ (Infinite Super-Loop)
+void loop() {
+  digitalWrite(13, HIGH);   // បញ្ចេញកម្រិតតង់ស្យុង 5V ទៅជើង Pin 13
+  delay(500);               // រង់ចាំរយៈពេល 500ms (0.5 វិនាទី)
+  
+  digitalWrite(13, LOW);    // បញ្ចេញកម្រិតតង់ស្យុង 0V (GND)
+  delay(500);               // រង់ចាំរយៈពេល 500ms
+}
+
+```
+---
+## ៤. ការអនុវត្ត Lab ជាក់ស្ដែង (Hands-on Lab 01)
+
+### LAB SHEET 01: SOS MORSE CODE CONTROLLER
+
+១. គោលបំណងពិសោធន៍៖
+   - ដំឡើង និងកំណត់រចនាសម្ព័ន្ធ Arduino IDE 2.x ឬ PlatformIO
+   - ស្វែងយល់ពីដំណើរការ Compilation, Linking និង Uploading Firmware
+   - សរសេរកម្មវិធីភ្លើងសញ្ញា LED SOS Morse Code (សញ្ញាសង្គ្រោះបន្ទាន់)
+
+២. គ្រឿងបង្គុំដែលត្រូវប្រើប្រាស់ (Bill of Materials)៖
+   - Arduino Uno R3 / Nano x1
+   - LED 5mm x1
+   - Current-limiting resistor 220Ω x1
+   - Breadboard & Jumper wires
+
+៣. ដ្យាក្រាមតំណភ្ជាប់សៀគ្វី (Schematic Interfacing)៖
+
+[Arduino Uno]
+	
+-Pin 13 ---------[ 220Ω Resistor ]---------(+) [LED Anode
+	
+
+-GND------------------------------------(-) [LED Cathode]
+
+### C++
+
+```cpp
+/*
+ * Hands-on Lab 01: SOS Morse Code System
+ */
+const int LED_PIN = 13;
+
+void flash(int duration) {
+  digitalWrite(LED_PIN, HIGH);
+  delay(duration);
+  digitalWrite(LED_PIN, LOW);
+  delay(200); // គម្លាតរវាងសញ្ញានីមួយៗ
+}
+
+void setup() {
+  pinMode(LED_PIN, OUTPUT);
+  Serial.begin(115200);
+  Serial.println(F("Lab 01: SOS Morse Code System Ready."));
+}
+
+void loop() {
+  Serial.println(F("Sending SOS Signal..."));
+
+  // ១. សញ្ញា 'S' (ចុចខ្លី ៣ ដង: 200ms)
+  for (int i = 0; i < 3; i++) {
+    flash(200);
+  }
+  delay(300); // គម្លាតរវាងអក្សរ
+
+  // ២. សញ្ញា 'O' (ចុចវែង ៣ ដង: 600ms)
+  for (int i = 0; i < 3; i++) {
+    flash(600);
+  }
+  delay(300); // គម្លាតរវាងអក្សរ
+
+  // ៣. សញ្ញា 'S' (ចុចខ្លី ៣ ដង: 200ms)
+  for (int i = 0; i < 3; i++) {
+    flash(200);
+  }
+
+  // រង់ចាំ ៣ វិនាទី (3000ms) មុននឹងចាប់ផ្ដើមជុំថ្មី
+  Serial.println(F("Waiting for next cycle..."));
+  delay(3000);
+}
+
+```
+---
+## ៥. សំណួរត្រិះរិះ និងលំហាត់ស្វ័យសិក្សា (Self-Assessment)
+
+### លំហាត់ត្រិះរិះ & បញ្ហាអនុវត្តពង្រីកសមត្ថភាព
+
+សំណួរទី ១៖
+- ហេតុអ្វីបានជាបន្ទះឈីប ATmega328P មិនអាចផ្ទុកអថេរទំហំលើសពី 2 KB បាន?
+- ប្រសិនបើយើងចង់រក្សាទុក String ឬទិន្នន័យអក្សរថេរឱ្យបានច្រើន តើយើងត្រូវប្រើប្រាស់បច្ចេកទេសអ្វី?
+
+សំណួរទី ២៖
+- តើ Crystal Oscillator 16 MHz ដើរតួនាទីសំខាន់យ៉ាងដូចម្តេចខ្លះចំពោះដំណើរការរបស់ CPU, Timers
+  និងការគណនា Baud Rate នៃច្រក Serial UART?
+
+លំហាត់អនុវត្តពង្រីកសមត្ថភាព (Extension Challenge)៖
+- ចូរបន្ថែមប៊ូតុងចុច (Push Button) មួយនៅលើ Pin 2 ដោយកំណត់ឱ្យប្រព័ន្ធបញ្ចេញសញ្ញាភ្លើង SOS
+  តែនៅពេលណាដែលមានការចុចប៊ូតុងប៉ុណ្ណោះ។
