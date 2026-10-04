@@ -7,7 +7,7 @@
 ជើង GPIO (General Purpose Input/Output) នីមួយៗនៅលើ ATmega328P ត្រូវបានគ្រប់គ្រងដោយសៀគ្វីអេឡិចត្រូនិកខាងក្នុងដែលមាន៖
 * **Output Driver (CMOS Push-Pull Transistors):** ផ្គត់ផ្គង់ចរន្ត Source (រុញវ៉ុលចេញ 5V) ឬ Sink (ស្រូបចរន្តចូលដី GND)
 * **Input Buffer (Schmitt Trigger):** បម្លែងកម្រិតវ៉ុលមិនច្បាស់លាស់ ឱ្យទៅជា Logic HIGH ឬ LOW ដាច់ណាត់
-* **Internal Pull-Up Resistor:** រេស៊ីស្តង់ខាងក្នុងដែលមានតម្លៃចន្លោះពី **20kΩ ទៅ 50kΩ** (ជាទូទៅ 35kΩ) ដែលអាចបើក ឬបិទបានតាមរយៈកូដ
+* **Internal Pull-Up Resistor:** រេស៊ីស្តង់ខាងក្នុងដែលមានតម្លៃចន្លោះពី 20kΩ ទៅ 50kΩ (ជាទូទៅ 35kΩ) ដែលអាចបើក ឬបិទបានតាមរយៈកូដ
 
 ---
 
@@ -16,5 +16,80 @@
 អំពូល LED គឺជាគ្រឿងបង្គុំដែលពឹងផ្អែកលើចរន្ត (Current-driven device)។ ប្រសិនបើតភ្ជាប់ជើង Digital Pin ទៅកាន់ LED ដោយផ្ទាល់ដោយគ្មានរេស៊ីស្តង់ទប់ចរន្ត វានឹងធ្វើឱ្យខូច LED ឬឆេះច្រក I/O របស់ Microcontroller ភ្លាមៗ។
 
 ### រូបមន្តគណនាតាមច្បាប់អូម (Ohm's Law):
+
 ```text
 R = (Vcc - Vf) / If
+```
+
+* **Vcc:** វ៉ុលផ្គត់ផ្គង់ចេញពី Pin (សម្រាប់ Arduino គឺ 5V)
+* **Vf (Forward Voltage):** វ៉ុលធ្លាក់កាត់ LED (អំពូលក្រហមប្រហែល 1.8V ដល់ 2.0V, អំពូលខៀវឬសប្រហែល 3.0V ដល់ 3.2V)
+* **If (Forward Current):** ចរន្តសមស្របសម្រាប់ LED ភ្លឺច្បាស់ (ជាទូទៅចន្លោះ 10mA ដល់ 20mA ឬ 0.01A ដល់ 0.02A)
+
+**ឧទាហរណ៍គណនាសម្រាប់ LED ពណ៌ក្រហម (Vf = 2.0V, If = 15mA):**
+
+```text
+R = (5V - 2.0V) / 0.015A = 3.0V / 0.015A = 200 Ohm
+```
+
+*(ដូច្នេះយើងអាចជ្រើសរើសរេស៊ីស្តង់តម្លៃស្ដង់ដារ 220 Ohm ឬ 330 Ohm មកប្រើប្រាស់)*
+
+---
+
+## ៣. ស្ថានភាព Floating Input និងដំណោះស្រាយ Pull-up / Pull-down
+
+នៅពេលជើង Digital Pin ត្រូវបានកំណត់ជា Input ប្រសិនបើជើងនោះមិនត្រូវបានភ្ជាប់ទៅប្រភពភ្លើង (5V) ឬទៅដី (GND) ទេ ជើងនោះនឹងស្ថិតក្នុងស្ថានភាព Floating (អណ្ដែត)។ កម្លាំងដែនអេឡិចត្រូម៉ាញ៉េទិចជុំវិញអាចធ្វើឱ្យ Input ចាប់សញ្ញា Logic ច្របូកច្របល់រវាង 0 និង 1 មិនទៀងទាត់ឡើយ។
+
+### យន្តការទប់ស្កាត់៖
+1. **External Pull-down Resistor:**
+   * ភ្ជាប់រេស៊ីស្តង់ 10k Ohm ពីជើង Input ទៅកាន់ GND (Logic ធម្មតា = LOW)
+   * ពេលចុចប៊ូតុង ជើងនោះទទួលបានភ្លើង 5V (Logic ចុច = HIGH)
+2. **External Pull-up Resistor:**
+   * ភ្ជាប់រេស៊ីស្តង់ 10k Ohm ពីជើង Input ទៅកាន់ 5V (Logic ធម្មតា = HIGH)
+   * ពេលចុចប៊ូតុង ជើងនោះភ្ជាប់ទៅ GND (Logic ចុច = LOW)
+3. **Internal Pull-up (INPUT_PULLUP - ពេញនិយមបំផុត):**
+   * ប្រើប្រាស់រេស៊ីស្តង់ Pull-up ដែលមានស្រាប់ក្នុងបន្ទះឈីប ATmega328P មិនបាច់តរេស៊ីស្តង់ខាងក្រៅឡើយ
+   * កូដកំណត់៖ `pinMode(pin, INPUT_PULLUP);`
+   * ស្ថានភាព៖ មិនទាន់ចុច = HIGH, ពេលចុចភ្ជាប់ទៅ GND = LOW (Active-LOW Logic)
+
+---
+
+## ៤. បាតុភូត Switch Contact Bouncing & Software Debouncing
+
+ប៊ូតុងចុចមេកានិច (Mechanical Push Button) ប្រើប្រាស់បន្ទះលោហៈប៉ះគ្នា។ នៅពេលចុច ឬលែងប៊ូតុង បន្ទះលោហៈនឹងលោតញាក់ (Bounce) ទៅមកក្នុងរយៈពេលពីរបីមិល្លីវិនាទី (1ms ដល់ 10ms) មុននឹងជាប់នឹងន។
+
+ដោយសារ Microcontroller មានល្បឿនដំណើរការដល់ទៅ 16,000,000 ដងក្នុងមួយវិនាទី វានឹងរាប់ការលោតញាក់នោះថាជាការចុចប៊ូតុងរាប់សិបដង។
+
+### កូដគំរូទប់ស្កាត់ (Software Debounce):
+
+```cpp
+const int BUTTON_PIN = 2;
+int buttonState = HIGH;
+int lastButtonState = HIGH;
+unsigned long lastDebounceTime = 0;
+const unsigned long debounceDelay = 50;
+
+void setup() {
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int reading = digitalRead(BUTTON_PIN);
+
+  if (reading != lastButtonState) {
+    lastDebounceTime = millis();
+  }
+
+  if ((millis() - lastDebounceTime) > debounceDelay) {
+    if (reading != buttonState) {
+      buttonState = reading;
+
+      if (buttonState == LOW) {
+        Serial.println("Valid Button Press Detected!");
+      }
+    }
+  }
+
+  lastButtonState = reading;
+}
+```
