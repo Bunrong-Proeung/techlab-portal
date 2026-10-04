@@ -1,6 +1,6 @@
 {
-  "index": "កម្មវិធីសិក្សាទូទៅ",
-  "lesson-01": "មេរៀនទី ១៖ ស្ថាបត្យកម្ម MCU & IDE",
-  "lesson-02": "មេរៀនទី ២៖ Digital I/O & Interfacing",
-  "lesson-03": "មេរៀនទី ៣៖ Analog Signals, ADC & PWM"
+  "curriculum": "📋 កម្មវិធីសិក្សាទូទៅ",
+  "lesson-01": "📘 មេរៀនទី ១៖ ស្ថាបត្យកម្ម MCU & IDE",
+  "lesson-02": "📘 មេរៀនទី ២៖ Digital I/O & Interfacing",
+  "lesson-03": "📘 មេរៀនទី ៣៖ Analog Signals, ADC & PWM"
 }
