@@ -1,0 +1,152 @@
+# មេរៀនទី ២៖ Digital Input/Output & សៀគ្វីចំណុចប្រទាក់ (Interfacing)
+
+នៅក្នុងមេរៀននេះ យើងនឹងស្វែងយល់ស៊ីជម្រៅអំពីយន្តការបញ្ជាជើង Digital I/O លើបន្ទះ Microcontroller (ATmega328P) ស្វែងយល់ពីកម្រិតតង់ស្យុងតក្កវិជ្ជា (Logic Levels) បញ្ហា Floating Pin និងបច្ចេកទេសសៀគ្វីចំណុចប្រទាក់រវាង MCU ជាមួយឧបករណ៍ខាងក្រៅដូចជា Push Buttons, LEDs និង Relays។
+
+---
+
+## ១. កម្រិតតង់ស្យុងតក្កវិជ្ជា និង Registers របស់ GPIO (General Purpose I/O)
+
+ជើង Digital Pin នីមួយៗនៅលើ ATmega328P អាចដំណើរការបានជា **Input** (ច្រកចូលទទួលសញ្ញា) ឬ **Output** (ច្រកចេញបញ្ជាបន្ទុក) ក្រោមវ៉ុលប្រតិបត្តិការ 5V (TTL Logic)៖
+
+* **Logic HIGH (1):** VIH ចាប់ពី 3.0V ឡើងទៅ (តង់ស្យុងបញ្ចេញប្រហែល 4.2V ដល់ 5.0V)
+* **Logic LOW (0):** VIL ចាប់ពី 1.5V ចុះក្រោម (តង់ស្យុងបញ្ចេញប្រហែល 0V ដល់ 0.5V)
+
+### កម្រិតកំណត់ផ្នែករឹង (Hardware Absolute Limits):
+* ចរន្តអតិបរមាដែលអាចផ្តល់ឱ្យ ឬទាញយកពីជើង GPIO មួយ: **40mA** (កម្រិតសុវត្ថិភាពទូទៅគឺ **20mA**)
+* ចរន្តសរុបអតិបរមាកាត់តាមបន្ទះឈីបទាំងមូល (VCC / GND): **200mA**
+
+### ប្រព័ន្ធ Registers ខាងក្នុង (Internal GPIO Registers):
+1. **DDRx (Data Direction Register):** កំណត់ទិសដៅជើង (1 = Output, 0 = Input)។
+2. **PORTx (Port Data Register):** បញ្ជាតម្លៃ High/Low ពេលជា Output ឬបើក Internal Pull-up ពេលជា Input។
+3. **PINx (Port Input Pins Address):** ប្រើសម្រាប់អានតម្លៃតង់ស្យុងជាក់ស្ដែងពីខាងក្រៅចូលមកវិញ។
+
+> ⚠ **ការប្រុងប្រយ័ត្នលើបន្ទុកចរន្ត (Overcurrent Warning):**  
+> ហាមភ្ជាប់ជើង GPIO ទៅកាន់បន្ទុកដែលត្រូវការចរន្តលើសពី 40mA (ដូចជា Motors, Solenoids, ឬ Buzzer ធំៗ) ដោយផ្ទាល់ជាដាច់ខាត ព្រោះវានឹងដុតបំផ្លាញ Internal Transistors របស់បន្ទះឈីបភ្លាមៗ។ ត្រូវប្រើ Transistor (BJT/MOSFET) ឬ Optocoupler ជាកូនកាត់ជានិច្ច។
+
+---
+
+## ២. បញ្ហា Floating Pin & សៀគ្វី Pull-up / Pull-down Resistor
+
+នៅពេលដែលជើង GPIO ត្រូវបានកំណត់ជា **INPUT** ប៉ុន្តែមិនមានខ្សែភ្ជាប់ទៅកាន់ប្រភព 5V ឬ GND ច្បាស់លាស់ទេ (ឧទាហរណ៍៖ ប៊ូតុងមិនទាន់ចុច) នោះជើងនោះនឹងស្ថិតក្នុងស្ថានភាព **Floating (អណ្ដែត)**។ ជើងអណ្ដែតដើរតួដូចជាអង់តែនចាប់យកដែនអេឡិចត្រូម៉ាញ៉េទិចក្នុងបរិយាកាស បណ្ដាលឱ្យការអានតម្លៃលោត 0 និង 1 ច្របូកច្របល់។
+
+### ដំណោះស្រាយផ្នែករឹង (Circuit Interfacing):
+1. **External Pull-up Resistor (10kΩ):** ភ្ជាប់រេស៊ីស្តង់ពីជើង Pin ឡើងទៅ 5V (ពេលមិនចុចអានឃើញ HIGH, ពេលចុចអានឃើញ LOW)។
+2. **External Pull-down Resistor (10kΩ):** ភ្ជាប់រេស៊ីស្តង់ពីជើង Pin ចុះទៅ GND (ពេលមិនចុចអានឃើញ LOW, ពេលចុចអានឃើញ HIGH)។
+3. **Internal Pull-up Resistor:** ATmega328P មានរេស៊ីស្តង់ខាងក្នុងទំហំពី 20kΩ ដល់ 50kΩ ដែលយើងអាចបើកប្រើបានតាមរយៈកូដ `pinMode(pin, INPUT_PULLUP)` ដោយមិនបាច់តរេស៊ីស្តង់ខាងក្រៅឡើយ។
+
+---
+
+## ៣. បញ្ហា Switch Contact Bouncing & ដំណោះស្រាយ Debounce
+
+ប៊ូតុងចុចមេកានិច (Mechanical Push Buttons) មិនផ្ដាច់ ឬភ្ជាប់ចរន្តភ្លាមៗនោះទេ គឺសន្លឹកលោហៈខាងក្នុងនឹងលោតទង្គិចគ្នា (Bouncing) រយៈពេលប្រហែល 5ms ដល់ 20ms មុននឹងជាប់ណែនល្អ។ ប្រសិនបើគ្មានដំណោះស្រាយ Debounce ទេ ការចុចប៊ូតុងមួយដង អាចធ្វើឱ្យ MCU រាប់ជាការចុច ៥ ទៅ ១០ ដង។
+
+### វិធីសាស្ត្រ Debounce តាមរយៈ Software (Non-blocking):
+យើងប្រើអនុគមន៍ `millis()` ដើម្បីវាស់គម្លាតពេលវេលា ប្រសិនបើសញ្ញាប្រែប្រួលស្ថិតក្នុងចន្លោះក្រោម 50ms នោះប្រព័ន្ធនឹងច្រានចោល មិនរាប់ជាការចុចថ្មីឡើយ។
+
+---
+
+## ៤. ការអនុវត្ត Lab ជាក់ស្ដែង (Hands-on Lab 02)
+
+```text
+========================================================================
+[LAB SHEET 02: PUSH-BUTTON TOGGLE WITH SOFTWARE DEBOUNCE]
+========================================================================
+
+១. គោលបំណងពិសោធន៍៖
+   - ស្វែងយល់ពីរបៀបប្រើប្រាស់ INPUT_PULLUP ដោយមិនបាច់ប្រើ External Resistor
+   - សរសេរកូដដោះស្រាយបញ្ហា Contact Bouncing ដោយប្រើបច្ចេកទេស Non-blocking Debounce
+   - បញ្ជាបិទ/បើក LED (Toggle State) រាល់ពេលចុចប៊ូតុងម្តងៗ
+
+២. គ្រឿងបង្គុំដែលត្រូវប្រើប្រាស់ (Bill of Materials)៖
+   - Arduino Uno / Nano x1
+   - Push Button Switch x1
+   - LED 5mm x1
+   - Current-limiting resistor 220Ω x1
+   - Breadboard & Jumper wires
+
+៣. ដ្យាក្រាមតំណភ្ជាប់សៀគ្វី (Active-LOW Push Button Interfacing)៖
+   [Arduino Uno]
+      Pin 2  ------------------------------------[ Push Button ]--- GND
+      (ប្រើ Internal Pull-up)
+
+      Pin 13 ---------[ 220Ω Resistor ]---------(+) [LED Anode]
+                                                     |
+      GND    ------------------------------------(-) [LED Cathode]
+
+```
+
+### C++
+
+```cpp
+/*
+ * Hands-on Lab 02: Non-blocking Software Debounce Toggle
+ */
+
+const int BUTTON_PIN = 2; // ប៊ូតុងភ្ជាប់ទៅ Pin 2 (Active-LOW)
+const int LED_PIN = 13;   // LED ភ្ជាប់ទៅ Pin 13
+
+// អថេរគ្រប់គ្រងស្ថានភាព
+int ledState = LOW;
+int buttonState;
+int lastButtonState = HIGH;
+
+// អថេរគ្រប់គ្រងពេលវេលា Debounce
+unsigned long lastDebounceTime = 0;
+const unsigned long debounceDelay = 50; // រយៈពេលរង់ចាំ 50ms
+
+void setup() {
+  pinMode(LED_PIN, OUTPUT);
+  // បើករេស៊ីស្តង់ Pull-up ខាងក្នុង MCU (ពេលមិនចុច = HIGH, ពេលចុច = LOW)
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+
+  Serial.begin(115200);
+  Serial.println(F("Lab 02: Button Debounce Toggle System Ready."));
+}
+
+void loop() {
+  int reading = digitalRead(BUTTON_PIN);
+
+  // ប្រសិនបើស្ថានភាពប៊ូតុងប្រែប្រួល (ដោយសារ Noise ឬការចុច)
+  if (reading != lastButtonState) {
+    lastDebounceTime = millis();
+  }
+
+  // ប្រសិនបើតម្លៃនៅថេរលើសពី 50ms នោះវាជាការចុចពិតប្រាកដ
+  if ((millis() - lastDebounceTime) > debounceDelay) {
+    if (reading != buttonState) {
+      buttonState = reading;
+
+      // ដោយសារសៀគ្វីជា Active-LOW តម្លៃ LOW មានន័យថាប៊ូតុងត្រូវបានចុច
+      if (buttonState == LOW) {
+        ledState = !ledState; // ផ្លាស់ប្ដូរស្ថានភាព LED (Toggle)
+        digitalWrite(LED_PIN, ledState);
+
+        Serial.print(F("Button Pressed! LED Status: "));
+        Serial.println(ledState == HIGH ? F("ON") : F("OFF"));
+      }
+    }
+  }
+
+  lastButtonState = reading;
+}
+```
+---
+## ៥. សំណួរត្រិះរិះ និងលំហាត់ស្វ័យសិក្សា (Self-Assessment)
+
+```text
+========================================================================
+[លំហាត់ត្រិះរិះ & បញ្ហាអនុវត្តពង្រីកសមត្ថភាព]
+========================================================================
+
+សំណួរទី ១៖
+- តើអ្វីជាផលវិបាកប្រសិនបើយើងកំណត់ជើង Digital ជា INPUT ប៉ុន្តែមិនបានភ្ជាប់
+  Pull-up ឬ Pull-down Resistor (Floating Pin)?
+
+សំណួរទី ២៖
+- ហេតុអ្វីបានជាការប្រើប្រាស់ delay(50) សម្រាប់ធ្វើ Debounce មិនត្រូវបានណែនាំ
+  នៅក្នុងគម្រោង Embedded Systems កម្រិតវិជ្ជាជីវៈ?
+
+លំហាត់អនុវត្តពង្រីកសមត្ថភាព (Extension Challenge)៖
+- ចូរសរសេរកម្មវិធីបន្ថែមប៊ូតុងទី ២ (ភ្ជាប់ទៅ Pin 3) ដើម្បីបញ្ជា LED ទី ២ 
+  ដោយបន្ថែមមុខងារចុចប៊ូតុងជាប់លើសពី ២ វិនាទី (Long Press) ឱ្យ LED ទាំងពីរ
+  ព្រិចភ្លើង (Blink) ជាសញ្ញាអាសន្ន។
