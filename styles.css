@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* កំណត់ Font ខ្មែរឱ្យដើរលើគេហទំព័រទាំងមូល */
+html, body {
+  font-family: 'Kantumruy Pro', sans-serif !important;
+}
