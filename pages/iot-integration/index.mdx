@@ -1,77 +1,104 @@
-# 📡 Arduino & Embedded Systems: Lab 01
+# 📡 កម្មវិធីសិក្សា Arduino & Embedded Systems (ពីដំបូងដល់កម្រិតខ្ពស់)
 
-## ប្រធានបទ៖ ការគ្រប់គ្រង Digital I/O និងបច្ចេកទេស Non-Blocking Delay (`millis()`)
-
----
-
-### ១. វត្ថុបំណងនៃការពិសោធន៍ (Objectives)
-* យល់ដឹងច្បាស់ពីរចនាសម្ព័ន្ធ Hardware នៃ GPIO Pins លើ Microcontroller (ATmega328P / ESP32)
-* ស្វែងយល់ពីតួនាទីរបស់ Internal Pull-Up Resistor (`INPUT_PULLUP`)
-* យល់ដឹងពីផលប៉ះពាល់នៃការប្រើ `delay()` (CPU Blocking) និងរៀនប្រើ `millis()` សម្រាប់ Multitasking
+សូមស្វាគមន៍មកកាន់កម្រងមេរៀនទ្រឹស្ដីវិស្វកម្មប្រព័ន្ធបង្កប់ (Embedded Systems) និង IoT។ កម្មវិធីសិក្សានេះចែកចេញជា ៤ ដំណាក់កាលច្បាស់លាស់ ដោយផ្តោតលើស្ថាបត្យកម្ម Hardware, C/C++ Programming, និងពិធីការទំនាក់ទំនងឧស្សាហកម្ម មុននឹងឈានដល់ការអនុវត្ត Lab ជាក់ស្ដែង។
 
 ---
 
-### ២. ឧបករណ៍ និងគ្រឿងបង្គុំចាំបាច់ (Required Components)
-| ល.រ | ឈ្មោះឧបករណ៍ / គ្រឿងបង្គុំ | ចំនួន |
-| :--- | :--- | :--- |
-| ១ | ក្ដារ Arduino Uno R3 ឬ ESP32 | ១ |
-| ២ | Breadboard + ខ្សែតភ្ជាប់ (Jumper Wires) | ១ ឈុត |
-| ៣ | អំពូល LED (5mm) | ២ គ្រាប់ |
-| ៤ | រេស៊ីស្តង់ (220Ω ឬ 330Ω) | ២ គ្រាប់ |
-| ៥ | ប៊ូតុងចុច (Tactile Push Button) | ១ គ្រាប់ |
+## 📘 ដំណាក់កាលទី ១៖ មូលដ្ឋានគ្រឹះដំបូង (Fundamental Level)
+
+ផ្តោតលើស្ថាបត្យកម្ម Hardware គ្រឹះនៃ Microcontroller និងការសរសេរកូដគ្រប់គ្រង Digital/Analog I/O។
+
+### មេរៀនទី ១៖ ស្ថាបត្យកម្ម Microcontroller & បរិស្ថានអភិវឌ្ឍន៍ (IDE)
+* រចនាសម្ព័ន្ធ Hardware របស់ ATmega328P (Memory Map: Flash, SRAM, EEPROM)
+* តួនាទីរបស់ Bootloader, Clock Oscillator (16MHz), និង Reset Circuit
+* រចនាសម្ព័ន្ធកូដ C/C++ ក្នុង Arduino៖ វដ្តដំណើរការនៃ `setup()` និង `loop()`
+
+### មេរៀនទី ២៖ Digital Input/Output & សៀគ្វីចំណុចប្រទាក់ (Interfacing)
+* ការកំណត់ទិសដៅជើង I/O តាមរយៈ `pinMode()`, `digitalWrite()`, `digitalRead()`
+* ទ្រឹស្ដី Pull-up & Pull-down Resistors និងការប្រើប្រាស់ `INPUT_PULLUP`
+* បាតុភូត Mechanical Switch Bouncing និងយន្តការដោះស្រាយ (Hardware vs Software Debouncing)
+
+### មេរៀនទី ៣៖ Analog Signals & ការកែប្រែទទឹងជីពចរ (ADC & PWM)
+* គោលការណ៍បំប្លែង Successive Approximation ADC (10-bit Resolution)
+* ការគណនាវ៉ុលយោង (Reference Voltage - `DEFAULT`, `INTERNAL`, `EXTERNAL`)
+* ទ្រឹស្ដី Pulse Width Modulation (PWM), Duty Cycle, និងការប្រើប្រាស់ `analogWrite()`
+* អនុគមន៍គណិតវិទ្យាសម្រាប់ Scaling៖ `map()` និង `constrain()`
+
+### មេរៀនទី ៤៖ ការប្រាស្រ័យទាក់ទងទិន្នន័យជាស៊េរី (Serial UART Debugging)
+* គោលការណ៍នៃ Asynchronous Serial Transmission (Baud Rate, Frame Format, Parity)
+* ការគ្រប់គ្រង Serial Buffer ជាមួយ `Serial.available()`, `Serial.read()`, និង `Serial.print()`
+* ការវិភាគទិន្នន័យ Sensor ជាក្រាហ្វិកតាមរយៈ **Serial Plotter**
 
 ---
 
-### ៣. គ្រោងសៀគ្វីពិសោធន៍ (Hardware Wiring)
+## 📙 ដំណាក់កាលទី ២៖ កម្រិតមធ្យម (Intermediate Level)
 
-* **LED 1 (Blinking LED):** 
-  * ជើង Anode (+) $\rightarrow$ រេស៊ីស្តង់ 220Ω $\rightarrow$ Pin `D13`
-  * ជើង Cathode (-) $\rightarrow$ ជើងដី `GND`
-* **LED 2 (Indicator LED):**
-  * ជើង Anode (+) $\rightarrow$ រេស៊ីស្តង់ 220Ω $\rightarrow$ Pin `D12`
-  * ជើង Cathode (-) $\rightarrow$ ជើងដី `GND`
-* **Push Button:**
-  * ជើងទី ១ $\rightarrow$ ជើងដី `GND`
-  * ជើងទី ២ $\rightarrow$ Pin `D2` *(កំណត់ជា `INPUT_PULLUP` ក្នុងកូដ)*
+ផ្តោតលើការគ្រប់គ្រងពេលវេលា ការឆ្លើយតបព្រឹត្តិការណ៍បន្ទាន់ និងពិធីការតភ្ជាប់ Bus ស្តង់ដារ។
+
+### មេរៀនទី ៥៖ ការគ្រប់គ្រងពេលវេលា & Hardware Interrupts
+* ដែនកំណត់នៃ Blocking Code (`delay()`) លើ Real-time Systems
+* បច្ចេកទេស Non-blocking Timing ជាមួយ `millis()` និង `micros()` (State Machine Pattern)
+* យន្តការ External Interrupts (`attachInterrupt()`) លើជើង INT0/INT1
+* ការសរសេរ Interrupt Service Routine (ISR) និងសារៈសំខាន់នៃពាក្យគន្លឹះ `volatile`
+
+### មេរៀនទី ៦៖ ពិធីការទំនាក់ទំនងឧស្សាហកម្ម (UART, I2C, SPI)
+* **I2C Protocol (Two-Wire Interface - Wire.h):** ស្ថាបត្យកម្ម Master/Slave, Addressing (7-bit), Start/Stop Conditions, និង Pull-up Resistor Sizing
+* **SPI Protocol (SPI.h):** Synchronous Transmission, ជើង MOSI/MISO/SCK/CS, និងល្បឿន Clock Polarity/Phase (CPOL/CPHA)
+* ការអានទិន្នន័យពី Hardware ជាក់ស្ដែង៖ RTC DS3231, OLED SSD1306, និង SD Card Module
+
+### មេរៀនទី ៧៖ ការបញ្ជាបន្ទុក និងម៉ូទ័រ (Actuators & Power Electronics)
+* គោលការណ៍បញ្ជា Servo Motor តាមរយៈការបញ្ជូនជីពចរ PWM (50Hz Frame)
+* សៀគ្វី H-Bridge (L298N/L293D) សម្រាប់ការបញ្ជាទិសដៅ និងល្បឿន DC Motor
+* ការគ្រប់គ្រង Stepper Motor (Bipolar/Unipolar) តាមរយៈជំហាន (Step/Direction Driver)
 
 ---
 
-### ៤. កូដគំរូកម្មវិធី (C/C++ Source Code)
+## 📕 ដំណាក់កាលទី ៣៖ កម្រិតខ្ពស់ (Advanced & Low-Level)
 
-```cpp
-const int LED_BLINK_PIN = 13;
-const int LED_STATE_PIN = 12;
-const int BUTTON_PIN    = 2;
+ផ្តោតលើ Bare-metal Programming, ការសន្សំសំចៃថាមពល, និងការគ្រប់គ្រង Internal Peripherals ដោយផ្ទាល់។
 
-unsigned long previousMillis = 0;
-const long interval = 500; // រយៈពេលភ្លឹបភ្លែត 500ms
+### មេរៀនទី ៨៖ ការគ្រប់គ្រង Registers ដោយផ្ទាល់ (Direct Port Manipulation)
+* រចនាសម្ព័ន្ធ I/O Port Registers៖ `DDRx` (Direction), `PORTx` (Output), `PINx` (Input)
+* ការបង្កើនល្បឿនដំណើរការ I/O ដោយប្រើ Bitwise Operators (`&`, `|`, `^`, `~`, `<<`, `>>`)
+* ការប្រៀបធៀបល្បឿនរវាង `digitalWrite()` (ប្រហែល 50 CPU cycles) និង Port Access (1 CPU cycle)
 
-int ledBlinkState = LOW;
+### មេរៀនទី ៩៖ Internal Hardware Timers & Counters
+* ស្ថាបត្យកម្ម Timers លើ ATmega328P (Timer0 8-bit, Timer1 16-bit, Timer2 8-bit)
+* របៀបដំណើរការ៖ Normal Mode, CTC Mode (Clear Timer on Compare Match), និង Fast PWM
+* Prescaler Calculation និងការបង្កើត Periodic Timer Interrupts
+* ការការពារប្រព័ន្ធគាំងដោយប្រើ Hardware Watchdog Timer (WDT)
 
-void setup() {
-  pinMode(LED_BLINK_PIN, OUTPUT);
-  pinMode(LED_STATE_PIN, OUTPUT);
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
+### មេរៀនទី ១០៖ ការគ្រប់គ្រងថាមពលទាប (Low-Power Optimization)
+* របៀបនៃការសម្រាករបស់ MCU (Sleep Modes: Idle, Power-down, Standby)
+* ការដាស់ Processor តាមរយៈ External Interrupt ឬ Watchdog Timer
+* យុទ្ធសាស្ត្រកាត់បន្ថយការប្រើប្រាស់ថាមពលសម្រាប់ប្រព័ន្ធប្រើប្រាស់ថ្ម និងថាមពលពន្លឺព្រះអាទិត្យ
 
-  Serial.begin(9600);
-  Serial.println("System Ready: Non-blocking Lab Initialized.");
-}
+### មេរៀនទី ១១៖ ការបង្កើតបណ្ណាល័យផ្ទាល់ខ្លួន (Custom Library Development)
+* ការរៀបចំឯកសារ Header (`.h`), Implementation (`.cpp`), និង Metadata (`keywords.txt`)
+* ការអនុវត្ត Object-Oriented Programming (OOP) ជាមួយ C++ Classes ក្នុង Embedded Systems
+* ការគ្រប់គ្រង Scope, Encapsulation, និង Constructors
 
-void loop() {
-  unsigned long currentMillis = millis();
+---
 
-  // Task 1: បញ្ជា LED 1 ឱ្យភ្លឹបភ្លែតដោយមិនប្រើ delay()
-  if (currentMillis - previousMillis >= interval) {
-    previousMillis = currentMillis;
-    ledBlinkState = (ledBlinkState == LOW) ? HIGH : LOW;
-    digitalWrite(LED_BLINK_PIN, ledBlinkState);
-  }
+## 📗 ដំណាក់កាលទី ៤៖ ប្រព័ន្ធ IoT & Telecommunication Integration
 
-  // Task 2: អានស្ថានភាពប៊ូតុងចុចភ្លាមៗ
-  int buttonState = digitalRead(BUTTON_PIN);
-  if (buttonState == LOW) {
-    digitalWrite(LED_STATE_PIN, HIGH);
-  } else {
-    digitalWrite(LED_STATE_PIN, LOW);
-  }
-}
+ការផ្លាស់ប្តូរទៅកាន់ស្ថាបត្យកម្ម 32-bit (ESP32) និងការតភ្ជាប់បណ្ដាញពពក (Cloud)។
+
+### មេរៀនទី ១២៖ ស្ថាបត្យកម្ម ESP32 & ប្រព័ន្ធប្រតិបត្តិការពេលវេលាជាក់ស្ដែង (FreeRTOS)
+* ស្ថាបត្យកម្ម Xtensa Dual-Core 32-bit និង Memory Architecture
+* មូលដ្ឋានគ្រឹះ FreeRTOS៖ ការបង្កើត Multitasking (Tasks), Task Priorities, និង Core Pinning
+* ការទំនាក់ទំនងអន្តរ Tasks តាមរយៈ Queues, Mutexes, និង Semaphores
+
+### មេរៀនទី ១៣៖ ពិធីការ IoT Cloud & Network Telemetry
+* ការបង្កើត Local Web Server (HTTP GET/POST) សម្រាប់ត្រួតពិនិត្យ និងបញ្ជា
+* ពិធីការ **MQTT (Message Queuing Telemetry Transport):** Architecture, Broker, Topics, និង QoS Levels
+* ការផ្ញើទិន្នន័យ Telemetry ទៅកាន់ Cloud Dashboards
+
+### មេរៀនទី ១៤៖ ការប្រាស្រ័យទាក់ទងតាមបណ្ដាញទូរស័ព្ទ (Cellular Modules)
+* ការតភ្ជាប់ Hardware ជាមួយ Cellular Modules (SIM7600 / A7670 / SIM800L)
+* ការប្រើប្រាស់ AT Commands សម្រាប់ពិនិត្យ Network Registration (CSQ, CREG, CGATT)
+* ការកំណត់ APN, TCP/IP Stack, និងការបញ្ជូនទិន្នន័យ MQTT/HTTP តាមបណ្ដាញ 4G LTE
+
+---
+
+> 📝 **ដំណាក់កាលបន្ទាប់៖** បន្ទាប់ពីសិក្សាស្វែងយល់ទ្រឹស្ដីខាងលើរួចរាល់ ផ្នែក **Lab Sheets & Practical Experiments** នឹងត្រូវរៀបចំឡើងជាបន្តបន្ទាប់នៅតាមមេរៀននីមួយៗ។
