@@ -1,0 +1,67 @@
+# 📘 មេរៀនទី ៣៖ Analog Signals, ADC & Pulse Width Modulation (PWM)
+
+---
+
+## ១. ស្ថាបត្យកម្ម Analog-to-Digital Converter (ADC)
+
+នៅក្នុងពិភពពិត សញ្ញាភាគច្រើនជាសញ្ញា Analog (ដូចជា សីតុណ្ហភាព ពន្លឺ សម្ពាធ) ដែលមានតម្លៃប្រែប្រួលជាបន្តបន្ទាប់ (Continuous)។ ផ្ទុយទៅវិញ Microcontroller យល់តែប្រព័ន្ធឌីជីថល (0 និង 1) ប៉ុណ្ណោះ។ ដូច្នេះ MCU ត្រូវការ **ADC** ដើម្បីបំប្លែងកម្រិតវ៉ុលជាលេខឌីជីថល។
+
+នៅលើ ATmega328P (Arduino Uno)៖
+* **ADC Resolution:** 10-bit (កម្រិតបំប្លែងគឺ 2^10 = 1024 កម្រិត ពី **0 ដល់ 1023**)
+* **Analog Channels:** មាន 6 ជើង (A0 ដល់ A5)
+* **Sampling Rate:** ប្រហែល 10,000 ដងក្នុងមួយវិនាទី (10 kSPS)
+
+### រូបមន្តគណនាវ៉ុលបញ្ចូល (Input Voltage):
+```text
+V_in = (ADC_Value * V_ref) / 1023
+```
+* ប្រសិនបើប្រើវ៉ុលយោងលំនាំដើម `DEFAULT` (V_ref = 5.0V)៖
+  * តម្លៃ ADC = 0 ស្មើនឹង 0V
+  * តម្លៃ ADC = 512 ស្មើនឹងប្រហែល 2.5V
+  * តម្លៃ ADC = 1023 ស្មើនឹង 5.0V
+* **កម្រិតបម្លែងតូចបំផុត (Voltage Resolution):**
+```text
+Step Size = 5V / 1024 ≈ 4.88 mV
+```
+
+---
+
+## ២. វ៉ុលយោង (Analog Reference - `analogReference()`)
+
+យើងអាចកំណត់វ៉ុលយោងរបស់ ADC ដើម្បីបង្កើនភាពសុក្រឹតនៃការវាស់ស្ទង់៖
+1. **DEFAULT:** ប្រើវ៉ុលផ្គត់ផ្គង់ប្រព័ន្ធ 5V (ឬ 3.3V លើក្តារ 3.3V)
+2. **INTERNAL:** ប្រើប្រភពវ៉ុលខាងក្នុងដែលមានស្ថេរភាពខ្ពស់ 1.1V (លើ ATmega328P) សមស្របសម្រាប់ Sensor ដែលបញ្ចេញវ៉ុលទាប
+3. **EXTERNAL:** ផ្គត់ផ្គង់វ៉ុលយោងពីខាងក្រៅតាមជើង `AREF` (ចន្លោះពី 0V ដល់ 5V)
+
+---
+
+## ៣. Pulse Width Modulation (PWM)
+
+Microcontroller មិនអាចបញ្ចេញវ៉ុល Analog ពិតប្រាកដតាមជើង Digital បានទេ (លុះត្រាតែមាន DAC - Digital-to-Analog Converter)។ ប៉ុន្តែយើងអាចបង្កើតសញ្ញា Analog សិប្បនិម្មិតដោយប្រើ **PWM (Pulse Width Modulation)**។
+
+PWM ដំណើរការដោយការបិទ/បើកសញ្ញា Digital ក្នុងប្រេកង់ខ្ពស់ (ប្រហែល 490Hz ឬ 980Hz លើ Arduino Uno)។ កម្រិតវ៉ុលមធ្យមអាស្រ័យលើ **Duty Cycle** (ភាគរយនៃរយៈពេលដែលសញ្ញានៅកម្រិត HIGH ធៀបនឹងខួបសរុប)៖
+
+```text
+V_out_avg = Vcc * (Duty_Cycle / 100%)
+```
+
+* **Duty Cycle 0%:** វ៉ុលមធ្យម = 0V
+* **Duty Cycle 50%:** វ៉ុលមធ្យម = 2.5V
+* **Duty Cycle 100%:** វ៉ុលមធ្យម = 5V
+
+នៅលើ Arduino Uno ជើងដែលអាចបញ្ចេញ PWM មានចំនួន 6 (មានសញ្ញា `~` នៅពីមុខ)៖ **D3, D5, D6, D9, D10, D11**។ កម្រិត PWM មានទំហំ **8-bit (តម្លៃពី 0 ដល់ 255)** តាមរយៈអនុគមន៍ `analogWrite(pin, value)`។
+
+---
+
+## ៤. អនុគមន៍សំខាន់ៗក្នុង C++
+
+1. **`analogRead(pin)`:** អានតម្លៃពីជើង Analog (ទទួលបានតម្លៃពី 0 ដល់ 1023)
+2. **`analogWrite(pin, value)`:** បញ្ចេញសញ្ញា PWM (តម្លៃពី 0 ដល់ 255)
+3. **`map(value, fromLow, fromHigh, toLow, toHigh)`:** បម្លែងមាត្រដ្ឋានតម្លៃពីជួរមួយទៅជួរមួយទៀត
+
+```cpp
+// ឧទាហរណ៍៖ អានពី Sensor (0-1023) បម្លែងទៅបញ្ជាពន្លឺ LED (0-255)
+int sensorValue = analogRead(A0);
+int ledBrightness = map(sensorValue, 0, 1023, 0, 255);
+analogWrite(9, ledBrightness);
+```
