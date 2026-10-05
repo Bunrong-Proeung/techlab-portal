@@ -1,216 +1,196 @@
 ---
+title: ទំព័រដើម
 layout: full
-sidebar: false
-toc: false
 ---
 
 import Link from 'next/link'
 
-export default function HomePage() {
-...
-import Link from 'next/link'
+<div style={{ maxWidth: '1100px', margin: '0 auto', textAlign: 'center', padding: '3.5rem 1.5rem 5rem 1.5rem' }}>
 
-export default function HomePage() {
-  return (
-    <div style={{ maxWidth: '1140px', margin: '0 auto', textAlign: 'center', padding: '3.5rem 1.5rem 5rem 1.5rem' }}>
-      
-      {/* Badge ស្វាគមន៍ */}
-      <div style={{ marginBottom: '2.5rem' }}>
-        <span style={{
-          backgroundColor: 'rgba(37, 99, 235, 0.1)',
-          color: '#2563eb',
-          padding: '10px 24px',
-          borderRadius: '9999px',
-          fontSize: '0.95rem',
-          fontWeight: '600',
-          border: '1px solid rgba(37, 99, 235, 0.25)',
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '8px'
-        }}>
-          🚀 វិបផតថលវិស្វកម្ម &amp; ពិសោធន៍បច្ចេកវិទ្យា
-        </span>
-      </div>
+  {/* Badge ស្វាគមន៍ */}
+  <div style={{ marginBottom: '2.5rem' }}>
+    <span style={{
+      backgroundColor: 'rgba(37, 99, 235, 0.12)',
+      color: '#2563eb',
+      padding: '10px 24px',
+      borderRadius: '9999px',
+      fontSize: '0.95rem',
+      fontWeight: '600',
+      border: '1px solid rgba(37, 99, 235, 0.25)',
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '8px'
+    }}>
+      🚀 វិបផតថលវិស្វកម្ម &amp; ពិសោធន៍បច្ចេកវិទ្យា
+    </span>
+  </div>
 
-      {/* ចំណងជើងធំ */}
-      <h1 style={{
-        fontSize: 'clamp(2.3rem, 5vw, 3.8rem)',
-        fontWeight: '800',
-        lineHeight: '1.75',
-        marginBottom: '1.5rem',
-        marginTop: '0'
-      }}>
-        <span style={{ display: 'block', marginBottom: '0.5rem' }}>សិក្សាក្នុងភាសាខ្មែរ</span>
-        <span style={{ display: 'block', color: '#2563eb' }}>ជាមួយ TechLab Portal</span>
-      </h1>
+  {/* ចំណងជើងធំ */}
+  <h1 style={{
+    fontSize: 'clamp(2.3rem, 5vw, 3.8rem)',
+    fontWeight: '800',
+    lineHeight: '1.75',
+    marginBottom: '1.5rem',
+    marginTop: '0'
+  }}>
+    <span style={{ display: 'block', marginBottom: '0.5rem' }}>សិក្សាក្នុងភាសាខ្មែរ</span>
+    <span style={{ display: 'block', color: '#2563eb' }}>ជាមួយ TechLab Portal</span>
+  </h1>
 
-      {/* អត្ថបទពិពណ៌នា */}
-      <p style={{
-        fontSize: '1.15rem',
-        lineHeight: '2.2',
-        maxWidth: '780px',
-        margin: '0 auto 3.5rem auto',
-        opacity: 0.85
-      }}>
-        ប្រមូលផ្តុំមេរៀនសង្ខេប សន្លឹកកិច្ចការពិសោធន៍ (Lab Sheets) និងកូដគំរូជាក់ស្ដែងលើមុខវិជ្ជា Analog Electronics, 
-        ប្រព័ន្ធបង្កប់ (Embedded Systems), IoT Integration និងប្រព័ន្ធបណ្ដាញកុំព្យូទ័រ Routing &amp; Switching។
-      </p>
+  {/* អត្ថបទពិពណ៌នា */}
+  <p style={{
+    fontSize: '1.15rem',
+    lineHeight: '2.2',
+    maxWidth: '780px',
+    margin: '0 auto 3.5rem auto',
+    opacity: 0.85
+  }}>
+    ប្រមូលផ្តុំមេរៀនសង្ខេប សន្លឹកកិច្ចការពិសោធន៍ (Lab Sheets) និងកូដគំរូជាក់ស្ដែងលើមុខវិជ្ជា Analog Electronics, 
+    ប្រព័ន្ធបង្កប់ (Embedded Systems), IoT Integration និងប្រព័ន្ធបណ្ដាញកុំព្យូទ័រ Routing &amp; Switching។
+  </p>
 
-      {/* ប៊ូតុងចូលរៀន */}
+  {/* ប៊ូតុងចូលរៀន */}
+  <div style={{
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '1.5rem',
+    flexWrap: 'wrap',
+    marginBottom: '5rem'
+  }}>
+    <Link
+      href="/courses"
+      style={{
+        backgroundColor: '#2563eb',
+        color: '#ffffff',
+        padding: '15px 36px',
+        borderRadius: '14px',
+        fontWeight: '700',
+        fontSize: '1.1rem',
+        textDecoration: 'none',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '10px',
+        boxShadow: '0 8px 25px rgba(37, 99, 235, 0.4)'
+      }}
+    >
+      តោះចាប់ផ្ដើមចូលរៀន 🚀
+    </Link>
+
+    <a
+      href="https://t.me"
+      target="_blank"
+      rel="noreferrer"
+      style={{
+        backgroundColor: 'rgba(125, 125, 125, 0.08)',
+        color: 'inherit',
+        padding: '15px 32px',
+        borderRadius: '14px',
+        fontWeight: '600',
+        fontSize: '1.05rem',
+        textDecoration: 'none',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '10px',
+        border: '1px solid rgba(125, 125, 125, 0.25)',
+        boxShadow: '0 4px 14px rgba(0, 0, 0, 0.05)'
+      }}
+    >
+      ចូលរួម Channel Telegram ➔
+    </a>
+  </div>
+
+  {/* ប្រអប់ទាំង ៣ នៅជួរដេកស្មើគ្នា */}
+  <div style={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gap: '1.5rem',
+    textAlign: 'left'
+  }}>
+    
+    <div style={{
+      padding: '2.2rem 1.8rem',
+      borderRadius: '20px',
+      border: '1px solid rgba(125, 125, 125, 0.18)',
+      backgroundColor: 'rgba(125, 125, 125, 0.03)',
+      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)'
+    }}>
       <div style={{
+        fontSize: '1.8rem',
+        marginBottom: '1.2rem',
+        width: '54px',
+        height: '54px',
+        borderRadius: '14px',
+        backgroundColor: 'rgba(37, 99, 235, 0.1)',
         display: 'flex',
-        justifyContent: 'center',
-        gap: '1.5rem',
-        flexWrap: 'wrap',
-        marginBottom: '5rem'
+        alignItems: 'center',
+        justifyContent: 'center'
       }}>
-        <Link
-          href="/courses"
-          style={{
-            backgroundColor: '#2563eb',
-            color: '#ffffff',
-            padding: '15px 36px',
-            borderRadius: '14px',
-            fontWeight: '700',
-            fontSize: '1.1rem',
-            textDecoration: 'none',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '10px',
-            boxShadow: '0 8px 25px rgba(37, 99, 235, 0.4)'
-          }}
-        >
-          តោះចាប់ផ្ដើមចូលរៀន 🚀
-        </Link>
-
-        <a
-          href="https://t.me"
-          target="_blank"
-          rel="noreferrer"
-          style={{
-            backgroundColor: 'rgba(125, 125, 125, 0.08)',
-            color: 'inherit',
-            padding: '15px 32px',
-            borderRadius: '14px',
-            fontWeight: '600',
-            fontSize: '1.05rem',
-            textDecoration: 'none',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '10px',
-            border: '1px solid rgba(125, 125, 125, 0.25)',
-            boxShadow: '0 4px 14px rgba(0, 0, 0, 0.05)'
-          }}
-        >
-          ចូលរួម Channel Telegram ➔
-        </a>
+        📖
       </div>
-
-      {/* ========================================================
-          ប្រអប់ទាំង ៣ ចែកជា ៣ ជួរស្មើគ្នាក្នុងជួរដេកតែមួយ (Grid 3 Columns)
-          ======================================================== */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-        gap: '1.5rem',
-        textAlign: 'left'
-      }}>
-        
-        {/* Card 1 */}
-        <div style={{
-          padding: '2.2rem 1.8rem',
-          borderRadius: '20px',
-          border: '1px solid rgba(125, 125, 125, 0.18)',
-          backgroundColor: 'rgba(125, 125, 125, 0.03)',
-          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
-          display: 'flex',
-          flexDirection: 'column'
-        }}>
-          <div style={{
-            fontSize: '1.8rem',
-            marginBottom: '1.2rem',
-            width: '54px',
-            height: '54px',
-            borderRadius: '14px',
-            backgroundColor: 'rgba(37, 99, 235, 0.1)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
-            📖
-          </div>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.75rem', color: '#2563eb' }}>
-            មេរៀនគុណភាព
-          </h3>
-          <p style={{ fontSize: '0.98rem', lineHeight: '2', margin: 0, opacity: 0.85 }}>
-            មាតិកាសិក្សាត្រូវបានចងក្រងយ៉ាងផ្ចិតផ្ចង់ មានទាំងទ្រឹស្ដីគ្រឹះ និងរូបមន្តគណនាជាក់លាក់។
-          </p>
-        </div>
-
-        {/* Card 2 */}
-        <div style={{
-          padding: '2.2rem 1.8rem',
-          borderRadius: '20px',
-          border: '1px solid rgba(125, 125, 125, 0.18)',
-          backgroundColor: 'rgba(125, 125, 125, 0.03)',
-          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
-          display: 'flex',
-          flexDirection: 'column'
-        }}>
-          <div style={{
-            fontSize: '1.8rem',
-            marginBottom: '1.2rem',
-            width: '54px',
-            height: '54px',
-            borderRadius: '14px',
-            backgroundColor: 'rgba(6, 182, 212, 0.1)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
-            💻
-          </div>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.75rem', color: '#0891b2' }}>
-            លក្ខណៈជាក់ស្ដែង
-          </h3>
-          <p style={{ fontSize: '0.98rem', lineHeight: '2', margin: 0, opacity: 0.85 }}>
-            គ្រប់មេរៀនទាំងអស់សុទ្ធតែមាន Lab សន្លឹកកិច្ចការ និងកូដគំរូអាចដំណើរការបានពិតប្រាកដ។
-          </p>
-        </div>
-
-        {/* Card 3 */}
-        <div style={{
-          padding: '2.2rem 1.8rem',
-          borderRadius: '20px',
-          border: '1px solid rgba(125, 125, 125, 0.18)',
-          backgroundColor: 'rgba(125, 125, 125, 0.03)',
-          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
-          display: 'flex',
-          flexDirection: 'column'
-        }}>
-          <div style={{
-            fontSize: '1.8rem',
-            marginBottom: '1.2rem',
-            width: '54px',
-            height: '54px',
-            borderRadius: '14px',
-            backgroundColor: 'rgba(217, 119, 6, 0.1)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
-            🤝
-          </div>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.75rem', color: '#d97706' }}>
-            ការគាំទ្រ
-          </h3>
-          <p style={{ fontSize: '0.98rem', lineHeight: '2', margin: 0, opacity: 0.85 }}>
-            មានសហគមន៍សម្រាប់ពិភាក្សា ដោះស្រាយបញ្ហា Code និង Circuit ពេលអនុវត្តជាក់ស្ដែង។
-          </p>
-        </div>
-
-      </div>
-
+      <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.75rem', color: '#2563eb' }}>
+        មេរៀនគុណភាព
+      </h3>
+      <p style={{ fontSize: '0.98rem', lineHeight: '2', margin: 0, opacity: 0.85 }}>
+        មាតិកាសិក្សាត្រូវបានចងក្រងយ៉ាងផ្ចិតផ្ចង់ មានទាំងទ្រឹស្ដីគ្រឹះ និងរូបមន្តគណនាជាក់លាក់។
+      </p>
     </div>
-  )
-}
+
+    <div style={{
+      padding: '2.2rem 1.8rem',
+      borderRadius: '20px',
+      border: '1px solid rgba(125, 125, 125, 0.18)',
+      backgroundColor: 'rgba(125, 125, 125, 0.03)',
+      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)'
+    }}>
+      <div style={{
+        fontSize: '1.8rem',
+        marginBottom: '1.2rem',
+        width: '54px',
+        height: '54px',
+        borderRadius: '14px',
+        backgroundColor: 'rgba(6, 182, 212, 0.1)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        💻
+      </div>
+      <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.75rem', color: '#0891b2' }}>
+        លក្ខណៈជាក់ស្ដែង
+      </h3>
+      <p style={{ fontSize: '0.98rem', lineHeight: '2', margin: 0, opacity: 0.85 }}>
+        គ្រប់មេរៀនទាំងអស់សុទ្ធតែមាន Lab សន្លឹកកិច្ចការ និងកូដគំរូអាចដំណើរការបានពិតប្រាកដ។
+      </p>
+    </div>
+
+    <div style={{
+      padding: '2.2rem 1.8rem',
+      borderRadius: '20px',
+      border: '1px solid rgba(125, 125, 125, 0.18)',
+      backgroundColor: 'rgba(125, 125, 125, 0.03)',
+      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)'
+    }}>
+      <div style={{
+        fontSize: '1.8rem',
+        marginBottom: '1.2rem',
+        width: '54px',
+        height: '54px',
+        borderRadius: '14px',
+        backgroundColor: 'rgba(217, 119, 6, 0.1)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        🤝
+      </div>
+      <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.75rem', color: '#d97706' }}>
+        ការគាំទ្រ
+      </h3>
+      <p style={{ fontSize: '0.98rem', lineHeight: '2', margin: 0, opacity: 0.85 }}>
+        មានសហគមន៍សម្រាប់ពិភាក្សា ដោះស្រាយបញ្ហា Code និង Circuit ពេលអនុវត្តជាក់ស្ដែង។
+      </p>
+    </div>
+
+  </div>
+
+</div>
