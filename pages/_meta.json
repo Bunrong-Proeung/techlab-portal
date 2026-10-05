@@ -6,12 +6,18 @@
     "theme": {
       "layout": "full",
       "sidebar": false,
-      "toc": false
+      "toc": false,
+      "pagination": false
     }
   },
   "courses": {
     "title": "មុខវិជ្ជាសិក្សា",
-    "type": "page"
+    "type": "page",
+    "theme": {
+      "layout": "full",
+      "sidebar": false,
+      "toc": false
+    }
   },
   "iot-integration": {
     "title": "IoT Integration",
