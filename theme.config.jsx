@@ -1,6 +1,6 @@
 export default {
   logo: (
-    <span className="font-bold flex items-center gap-2">
+    <span style={{ fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px' }}>
       ⚡ <span>TechLab Portal</span>
     </span>
   ),
@@ -19,13 +19,15 @@ export default {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      {/* ទាញយក Noto Sans Khmer គ្រប់កម្រាស់ ទាំងស្រាល និងដិត (Bold) */}
       <link
-        href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet"
       />
       <style>{`
-        *, html, body, button, input, select, textarea {
-          font-family: 'Kantumruy Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        *, *::before, *::after, html, body, button, input, select, textarea {
+          font-family: 'Noto Sans Khmer', system-ui, -apple-system, sans-serif !important;
+          -webkit-font-smoothing: antialiased;
         }
         code, pre, kbd {
           font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
