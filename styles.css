@@ -4,7 +4,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/* កំណត់ Font ខ្មែរឱ្យដើរលើគេហទំព័រទាំងមូល */
-html, body {
-  font-family: 'Kantumruy Pro', sans-serif !important;
+/* កំណត់ Font ខ្មែរឱ្យដើរលើគ្រប់ Element ទាំងអស់ រួមទាំង Tag កូនៗ */
+*,
+*::before,
+*::after,
+html,
+body,
+button,
+input,
+select,
+textarea {
+  font-family: 'Kantumruy Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* រក្សាទុក Font Code សម្រាប់ប្រអប់កូដកុំឱ្យខូចទម្រង់ */
+code,
+pre,
+kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
 }
