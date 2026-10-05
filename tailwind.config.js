@@ -6,12 +6,7 @@ module.exports = {
     './theme.config.jsx',
   ],
   theme: {
-    extend: {
-      fontFamily: {
-        sans: ['"Kantumruy Pro"', 'sans-serif'],
-      },
-    },
+    extend: {},
   },
   plugins: [],
-  darkMode: 'class',
 }
