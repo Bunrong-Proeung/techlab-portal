@@ -1,21 +1,17 @@
 import '../styles.css'
-import { Kantumruy_Pro } from 'next/font/google'
+import { Noto_Sans_Khmer } from 'next/font/google'
 
-const kantumruy = Kantumruy_Pro({
-  subsets: ['khmer', 'latin'],
-  weight: ['400', '500', '600', '700'],
+const notoSansKhmer = Noto_Sans_Khmer({
+  subsets: ['khmer'],
+  weight: ['400', '500', '600', '700', '800'],
   display: 'swap',
+  variable: '--font-khmer',
 })
 
 export default function App({ Component, pageProps }) {
   return (
-    <div className={kantumruy.className}>
+    <main className={notoSansKhmer.className}>
       <Component {...pageProps} />
-      <style jsx global>{`
-        html, body, *, button, input, select, textarea {
-          font-family: ${kantumruy.style.fontFamily}, sans-serif !important;
-        }
-      `}</style>
-    </div>
+    </main>
   )
 }

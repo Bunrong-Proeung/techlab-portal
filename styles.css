@@ -1,15 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500;600;700;800;900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* កំណត់ Font Noto Sans Khmer ចូលទៅក្នុង Root ទាំងមូល */
-:root {
-  --font-sans: 'Noto Sans Khmer', sans-serif;
-}
-
-/* បង្ខំឱ្យ Nextra, Tailwind និង Browser ទាំងអស់ប្រើ Noto Sans Khmer */
 html,
 body,
 div,
@@ -24,18 +16,16 @@ p,
 a,
 button,
 input,
-select,
-textarea,
+article,
+section,
 nav,
 aside,
-main,
-article {
-  font-family: 'Noto Sans Khmer', system-ui, -apple-system, sans-serif !important;
+header,
+main {
+  font-family: var(--font-khmer), 'Noto Sans Khmer', system-ui, -apple-system, sans-serif !important;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-/* រក្សាទុក font code ដាច់ដោយឡែក */
 code,
 pre,
 kbd {
