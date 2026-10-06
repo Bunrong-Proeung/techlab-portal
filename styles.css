@@ -2,31 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-/* កម្រាស់ 100 ដល់ 500 (អត្ថបទធម្មតា, កថាខណ្ឌ, ចំណងជើងតូចៗ H3/H4) រត់តាម Regular */
+/* ១. Font សម្រាប់អក្សរឡាតាំង/អង់គ្លេស */
 @font-face {
-  font-family: 'Google Sans';
+  font-family: 'SiteFont';
   src: url('/fonts/GoogleSans-Regular.ttf') format('truetype');
   font-weight: 100 500;
   font-style: normal;
   font-display: swap;
 }
 
-/* កម្រាស់ 600 ដល់ 900 (ចំណងជើងមធ្យម H2, ចំណងជើងធំ H1, ប៊ូតុង Bold) រត់តាម Bold */
 @font-face {
-  font-family: 'Google Sans';
+  font-family: 'SiteFont';
   src: url('/fonts/GoogleSans-Bold.ttf') format('truetype');
   font-weight: 600 900;
   font-style: normal;
   font-display: swap;
 }
 
-/* កំណត់អថេរ Nextra ឱ្យប្រើតែឈ្មោះ Google Sans មួយគត់ */
-:root {
-  --font-sans: 'Google Sans', sans-serif !important;
-  --nextra-font-sans: 'Google Sans', sans-serif !important;
+/* ២. Font សម្រាប់អក្សរខ្មែរគ្រប់ទំហំ និងកម្រាស់ (កូដ Unicode ខ្មែរ) */
+@font-face {
+  font-family: 'SiteFont';
+  src: url('/fonts/NotoSansKhmer.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+1780-17FF, U+19E0-19FF, U+200B-200D, U+25CC;
 }
 
-/* បង្ខំគ្រប់កន្លែងទាំងអស់ រួមទាំង Sidebar និង Content */
+/* ៣. បង្ខំឱ្យគេហទំព័រទាំងមូលប្រើឈ្មោះ SiteFont នេះ */
+:root {
+  --font-sans: 'SiteFont', sans-serif !important;
+  --nextra-font-sans: 'SiteFont', sans-serif !important;
+}
+
 html,
 body,
 *,
@@ -44,13 +52,14 @@ a,
 li,
 td,
 th,
+button,
+input,
 .nextra-content,
 .nextra-sidebar-container {
-  font-family: 'Google Sans', sans-serif !important;
+  font-family: 'SiteFont', sans-serif !important;
   -webkit-font-smoothing: antialiased;
 }
 
-/* រក្សាទុកកូដ monospace សម្រាប់ផ្ទាំងកូដ */
 code,
 pre,
 kbd {
