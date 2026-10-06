@@ -2,33 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Font ធម្មតា */
+/* ភ្ជាប់ File Font ដែលមានទំហំ 359KB ក្នុង Folder public/fonts/NotoSansKhmer.ttf */
 @font-face {
   font-family: 'Noto Sans Khmer';
-  src: url('/fonts/NotoSansKhmer-Regular.ttf') format('truetype');
-  font-weight: 400;
+  src: url('/fonts/NotoSansKhmer.ttf') format('truetype');
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
-/* Font ដិត (Bold) */
-@font-face {
-  font-family: 'Noto Sans Khmer';
-  src: url('/fonts/NotoSansKhmer-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* បង្ខំឱ្យ Nextra និងគ្រប់ Element ទាំងអស់ប្រើ Font នេះជាដាច់ខាត */
 :root {
+  --font-sans: 'Noto Sans Khmer', sans-serif !important;
   --nextra-font-sans: 'Noto Sans Khmer', sans-serif !important;
 }
 
-* {
-  font-family: 'Noto Sans Khmer', sans-serif !important;
+/* បង្ខំ Font លើគ្រប់ Tags និង Class របស់ Nextra */
+html,
+body,
+*,
+*::before,
+*::after {
+  font-family: 'Noto Sans Khmer', system-ui, -apple-system, sans-serif !important;
 }
 
-code, pre, kbd {
-  font-family: monospace !important;
+code,
+pre,
+kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
 }
