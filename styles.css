@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Font Google Sans សម្រាប់អក្សរអង់គ្លេស / ឡាតាំង */
+/* កំណត់ Font ធម្មតា (Regular) */
 @font-face {
   font-family: 'Google Sans';
   src: url('/fonts/GoogleSans-Regular.ttf') format('truetype');
@@ -11,6 +11,7 @@
   font-display: swap;
 }
 
+/* កំណត់ Font ដិត (Bold) */
 @font-face {
   font-family: 'Google Sans';
   src: url('/fonts/GoogleSans-Bold.ttf') format('truetype');
@@ -19,27 +20,18 @@
   font-display: swap;
 }
 
-/* Font Google Sans Khmer (Noto) សម្រាប់អក្សរខ្មែរ */
-@font-face {
-  font-family: 'Google Sans Khmer';
-  src: url('/fonts/NotoSansKhmer.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
+/* បង្ខំឱ្យប្រើតែ Google Sans មួយគត់លើគេហទំព័រទាំងមូល */
 :root {
-  --font-sans: 'Google Sans', 'Google Sans Khmer', sans-serif !important;
-  --nextra-font-sans: 'Google Sans', 'Google Sans Khmer', sans-serif !important;
+  --font-sans: 'Google Sans', sans-serif !important;
+  --nextra-font-sans: 'Google Sans', sans-serif !important;
 }
 
-/* បង្ខំឱ្យអក្សរទាំងអស់រត់តាម Font Google Sans ទាំងពីរនេះ */
 html,
 body,
 *,
 *::before,
 *::after {
-  font-family: 'Google Sans', 'Google Sans Khmer', system-ui, -apple-system, sans-serif !important;
+  font-family: 'Google Sans', sans-serif !important;
   -webkit-font-smoothing: antialiased;
 }
 
