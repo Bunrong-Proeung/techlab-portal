@@ -2,39 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-/* កំណត់ Font ធម្មតា (Regular) */
+/* កម្រាស់ 100 ដល់ 500 (អត្ថបទធម្មតា, កថាខណ្ឌ, ចំណងជើងតូចៗ H3/H4) រត់តាម Regular */
 @font-face {
   font-family: 'Google Sans';
   src: url('/fonts/GoogleSans-Regular.ttf') format('truetype');
-  font-weight: 400;
+  font-weight: 100 500;
   font-style: normal;
   font-display: swap;
 }
 
-/* កំណត់ Font ដិត (Bold) */
+/* កម្រាស់ 600 ដល់ 900 (ចំណងជើងមធ្យម H2, ចំណងជើងធំ H1, ប៊ូតុង Bold) រត់តាម Bold */
 @font-face {
   font-family: 'Google Sans';
   src: url('/fonts/GoogleSans-Bold.ttf') format('truetype');
-  font-weight: 700;
+  font-weight: 600 900;
   font-style: normal;
   font-display: swap;
 }
 
-/* បង្ខំឱ្យប្រើតែ Google Sans មួយគត់លើគេហទំព័រទាំងមូល */
+/* កំណត់អថេរ Nextra ឱ្យប្រើតែឈ្មោះ Google Sans មួយគត់ */
 :root {
   --font-sans: 'Google Sans', sans-serif !important;
   --nextra-font-sans: 'Google Sans', sans-serif !important;
 }
 
+/* បង្ខំគ្រប់កន្លែងទាំងអស់ រួមទាំង Sidebar និង Content */
 html,
 body,
 *,
 *::before,
-*::after {
+*::after,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a,
+li,
+td,
+th,
+.nextra-content,
+.nextra-sidebar-container {
   font-family: 'Google Sans', sans-serif !important;
   -webkit-font-smoothing: antialiased;
 }
 
+/* រក្សាទុកកូដ monospace សម្រាប់ផ្ទាំងកូដ */
 code,
 pre,
 kbd {
