@@ -2,51 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-/* កំណត់ Font ខ្មែរដោយបញ្ជាក់ Unicode Range ខ្មែរឱ្យចំ */
+/* Font ធម្មតា */
 @font-face {
   font-family: 'Noto Sans Khmer';
-  src: url('/fonts/NotoSansKhmer.ttf') format('truetype');
-  font-weight: 100 900;
+  src: url('/fonts/NotoSansKhmer-Regular.ttf') format('truetype');
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+1780-17FF, U+19E0-19FF, U+200B-200D, U+25CC;
 }
 
-/* ជាន់លើ System Font របស់ Nextra Theme */
+/* Font ដិត (Bold) */
+@font-face {
+  font-family: 'Noto Sans Khmer';
+  src: url('/fonts/NotoSansKhmer-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* បង្ខំឱ្យ Nextra និងគ្រប់ Element ទាំងអស់ប្រើ Font នេះជាដាច់ខាត */
 :root {
-  --nextra-font-sans: 'Noto Sans Khmer', system-ui, -apple-system, sans-serif !important;
+  --nextra-font-sans: 'Noto Sans Khmer', sans-serif !important;
 }
 
-/* បង្ខំឱ្យអក្សរខ្មែរទាំងអស់ត្រូវតែរត់តាម Font នេះ */
-html,
-body,
-div,
-span,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-a,
-button,
-input,
-article,
-section,
-nav,
-aside,
-header,
-main,
-.nextra-content {
-  font-family: 'Noto Sans Khmer', system-ui, -apple-system, sans-serif !important;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+* {
+  font-family: 'Noto Sans Khmer', sans-serif !important;
 }
 
-/* ទុក Font Monospace សម្រាប់ Code */
-code,
-pre,
-kbd {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+code, pre, kbd {
+  font-family: monospace !important;
 }
