@@ -2,9 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ភ្ជាប់ File Font ដែលមានទំហំ 359KB ក្នុង Folder public/fonts/NotoSansKhmer.ttf */
+/* Font Google Sans សម្រាប់អក្សរអង់គ្លេស / ឡាតាំង */
 @font-face {
-  font-family: 'Noto Sans Khmer';
+  font-family: 'Google Sans';
+  src: url('/fonts/GoogleSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans';
+  src: url('/fonts/GoogleSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Font Google Sans Khmer (Noto) សម្រាប់អក្សរខ្មែរ */
+@font-face {
+  font-family: 'Google Sans Khmer';
   src: url('/fonts/NotoSansKhmer.ttf') format('truetype');
   font-weight: 100 900;
   font-style: normal;
@@ -12,17 +29,18 @@
 }
 
 :root {
-  --font-sans: 'Noto Sans Khmer', sans-serif !important;
-  --nextra-font-sans: 'Noto Sans Khmer', sans-serif !important;
+  --font-sans: 'Google Sans', 'Google Sans Khmer', sans-serif !important;
+  --nextra-font-sans: 'Google Sans', 'Google Sans Khmer', sans-serif !important;
 }
 
-/* បង្ខំ Font លើគ្រប់ Tags និង Class របស់ Nextra */
+/* បង្ខំឱ្យអក្សរទាំងអស់រត់តាម Font Google Sans ទាំងពីរនេះ */
 html,
 body,
 *,
 *::before,
 *::after {
-  font-family: 'Noto Sans Khmer', system-ui, -apple-system, sans-serif !important;
+  font-family: 'Google Sans', 'Google Sans Khmer', system-ui, -apple-system, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
 }
 
 code,
