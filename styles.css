@@ -2,9 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ១. Font សម្រាប់អក្សរឡាតាំង/អង់គ្លេស */
+/* ១. Font Google Sans សម្រាប់ចំណងជើង និងអក្សរឡាតាំង */
 @font-face {
-  font-family: 'SiteFont';
+  font-family: 'Google Sans Heading';
+  src: url('/fonts/GoogleSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Heading';
+  src: url('/fonts/GoogleSans-Bold.ttf') format('truetype');
+  font-weight: 600 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ២. Font សម្រាប់អក្សរទូទៅ */
+@font-face {
+  font-family: 'SiteBodyFont';
   src: url('/fonts/GoogleSans-Regular.ttf') format('truetype');
   font-weight: 100 500;
   font-style: normal;
@@ -12,16 +29,7 @@
 }
 
 @font-face {
-  font-family: 'SiteFont';
-  src: url('/fonts/GoogleSans-Bold.ttf') format('truetype');
-  font-weight: 600 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* ២. Font សម្រាប់អក្សរខ្មែរគ្រប់ទំហំ និងកម្រាស់ (កូដ Unicode ខ្មែរ) */
-@font-face {
-  font-family: 'SiteFont';
+  font-family: 'SiteBodyFont';
   src: url('/fonts/NotoSansKhmer.ttf') format('truetype');
   font-weight: 100 900;
   font-style: normal;
@@ -29,23 +37,17 @@
   unicode-range: U+1780-17FF, U+19E0-19FF, U+200B-200D, U+25CC;
 }
 
-/* ៣. បង្ខំឱ្យគេហទំព័រទាំងមូលប្រើឈ្មោះ SiteFont នេះ */
 :root {
-  --font-sans: 'SiteFont', sans-serif !important;
-  --nextra-font-sans: 'SiteFont', sans-serif !important;
+  --font-sans: 'SiteBodyFont', sans-serif !important;
+  --nextra-font-sans: 'SiteBodyFont', sans-serif !important;
 }
 
+/* អត្ថបទទូទៅ រួមទាំង Sidebar ប្រើ SiteBodyFont */
 html,
 body,
 *,
 *::before,
 *::after,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
 p,
 span,
 a,
@@ -53,10 +55,20 @@ li,
 td,
 th,
 button,
-input,
 .nextra-content,
 .nextra-sidebar-container {
-  font-family: 'SiteFont', sans-serif !important;
+  font-family: 'SiteBodyFont', system-ui, -apple-system, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ចំណងជើងទាំងអស់ (ធំ មធ្យម តូច) បង្ខំឱ្យប្រើ Google Sans Bold & Regular */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Google Sans Heading', 'SiteBodyFont', sans-serif !important;
   -webkit-font-smoothing: antialiased;
 }
 
